@@ -4,6 +4,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 #include "HelperFunctions.h"
+#include "OpenGLLoader.h"
 
 ///globals
 //screen
@@ -39,6 +40,7 @@ void onWindowResizeCallback(GLFWwindow* window, int width, int height)
 
 int main(char** argv, int argc)
 {
+	OpenGLLoader* instance;
 	///test glm included correctly
 	glm::mat4 identity(1.0f);
 	glm::mat4 world;
@@ -48,35 +50,23 @@ int main(char** argv, int argc)
 	view = glm::lookAt(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	///test glm included correctly
 
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	instance = OpenGLLoader::Instance();
+	instance->setWindowSize(800, 600);
 
-	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT,
-		"renderframework-opengl", NULL, NULL);
-
-	if (!window)
+	if (!instance->initialiseOpenGL())
 	{
+		//error occurred...
 		glfwTerminate();
 		printLine("Window creation failed.");
 		return -1;
 	}
 
-	glfwMakeContextCurrent(window);
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		printLine("GLAD failed to load OGL");
-		return -1;
-	}
-
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glfwSetFramebufferSizeCallback(window, onWindowResizeCallback);
+	instance->setWindowResizeEvent(onWindowResizeCallback);
 
 	//startup the timer
 	processTime();
 	int clearConsolePerFrame = 10;
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing variables
 		processTime();
@@ -89,14 +79,14 @@ int main(char** argv, int argc)
 		
 		printLine("deltaTime: " + std::to_string(deltaTime));
 		//check input
-		processInput(window);
+		processInput(instance->getWindow());
 
 		//render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		//check for events and swap render buffers
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(instance->getWindow());
 		glfwPollEvents();
 	}
 

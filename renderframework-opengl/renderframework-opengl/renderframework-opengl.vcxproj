@@ -130,9 +130,11 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenGLLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h" />
+    <ClInclude Include="OpenGLLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
