@@ -7,12 +7,32 @@
 #include "OpenGLLoader.h"
 #include "Timer.h"
 #include "Mesh.h"
+#include "Square.h"
 
 ///globals
 //screen
 int SCREEN_WIDTH = 800;
 int SCREEN_HEIGHT = 600;
 
+//shaders
+
+const char* vertex_shader =
+"#version 330 core\n"
+"layout(location = 0) in vec3 vp;"
+"layout(location = 1) in vec3 col;"
+"out vec3 colour;"
+"void main() {"
+"  gl_Position = vec4(vp, 1.0);"
+"  colour = col;"
+"}";
+
+const char* fragment_shader =
+"#version 330 core\n"
+"in vec3 colour;"
+"out vec4 frag_colour;"
+"void main() {"
+"  frag_colour = vec4(colour, 1.0);"
+"}";
 ///globals
 
 
@@ -54,13 +74,26 @@ int main(char** argv, int argc)
 
 	instance->setWindowResizeEvent(onWindowResizeCallback);
 
+	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vs, 1, &vertex_shader, NULL);
+	glCompileShader(vs);
+	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fs, 1, &fragment_shader, NULL);
+	glCompileShader(fs);
+
+	GLuint shader_programme = glCreateProgram();
+	glAttachShader(shader_programme, fs);
+	glAttachShader(shader_programme, vs);
+	glLinkProgram(shader_programme);
+
 	Mesh triangle;
 	
-	glm::vec3 verts[3];
-	verts[0] = glm::vec3(-0.5f, -0.5f, 0);
-	verts[1] = glm::vec3(0.5f, -0.5f, 0);
-	verts[2] = glm::vec3(0, 0.5f, 0);
-	triangle.setVertices(verts, 3);
+	Vertex triVertices[3];
+	triVertices[0].pos = glm::vec3(-0.5f, -0.5f, 0);
+	triVertices[1].pos = glm::vec3(0.5f, -0.5f, 0);
+	triVertices[2].pos = glm::vec3(0, 0.5f, 0);
+
+	triangle.setVertices(triVertices, 3);
 
 	int indices[3];
 	indices[0] = 0;
@@ -75,13 +108,15 @@ int main(char** argv, int argc)
 
 	Mesh rectangle;
 	rectangle.useTriangleStrip();
-	
-	glm::vec3 rectVerts[4]; //tri strip
-	rectVerts[0] = glm::vec3(-0.5f, -0.5f, 0);
-	rectVerts[1] = glm::vec3(0.5f, -0.5f, 0);
-	rectVerts[2] = glm::vec3(-0.5f, 0.5f, 0);
-	rectVerts[3] = glm::vec3(0.5f, 0.5f, 0);
-	rectangle.setVertices(rectVerts, 4);
+
+	Vertex rectangleVerts[4];
+	//tri strip arrangement
+	rectangleVerts[0].pos = glm::vec3(-0.5f, -0.5f, 0);
+	rectangleVerts[1].pos = glm::vec3(0.5f, -0.5f, 0);
+	rectangleVerts[2].pos = glm::vec3(-0.5f, 0.5f, 0);
+	rectangleVerts[3].pos = glm::vec3(0.5f, 0.5f, 0);
+
+	rectangle.setVertices(rectangleVerts, 4);
 
 	int rectIndices[4];
 	rectIndices[0] = 2;
@@ -95,10 +130,12 @@ int main(char** argv, int argc)
 	std::cout << "Index count: " << rectangle.IndexCount() << std::endl;
 	std::cout << "Triangle count: " << rectangle.TriangleCount() << std::endl;
 
-
+	
 	//startup the timer
 	Timer::tick();
 	int clearConsolePerFrame = 10;
+
+	Square square;
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing variables
@@ -116,7 +153,11 @@ int main(char** argv, int argc)
 
 		//render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glUseProgram(shader_programme);
+		//bind
+		square.draw();
+		//draw
 
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());

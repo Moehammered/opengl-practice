@@ -1,7 +1,7 @@
 #ifndef MESH__H_
 #define MESH__H_
 
-#include <glm\glm.hpp>
+#include "InterleavedVertex.h"
 #include <vector>
 
 class Mesh
@@ -10,7 +10,7 @@ public:
 	Mesh();
 	~Mesh();
 
-	void setVertices(glm::vec3* vertices, int vertexCount);
+	void setVertices(Vertex* vertices, int vertexCount);
 	void setIndices(int* indices, int indexCount);
 	void useTriangleList();
 	void useTriangleStrip();
@@ -18,13 +18,14 @@ public:
 	int IndexCount();
 	int VertexCount();
 	int TriangleCount();
+	int MeshType();
 
-	glm::vec3* const Vertices();
+	Vertex* const Vertices();
 	int* const Indices();
 
 protected:
 	std::vector<int> indices;
-	std::vector<glm::vec3> vertices;
+	std::vector<Vertex> vertices;
 
 	int triangleCount, meshType;
 };

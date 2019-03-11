@@ -129,15 +129,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
+    <ClCompile Include="InterleavedVertex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OpenGLLoader.cpp" />
+    <ClCompile Include="Square.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h" />
+    <ClInclude Include="InterleavedVertex.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OpenGLLoader.h" />
+    <ClInclude Include="Square.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

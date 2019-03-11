@@ -14,11 +14,11 @@ Mesh::~Mesh()
 	indices.clear();
 }
 
-void Mesh::setVertices(glm::vec3 * vertices, int vertexCount)
+void Mesh::setVertices(Vertex * vertices, int vertexCount)
 {
 	this->vertices.clear();
 	this->vertices.reserve(vertexCount);
-	this->vertices.insert(this->vertices.begin(), vertices, vertices+vertexCount);
+	this->vertices.insert(this->vertices.begin(), vertices, vertices + vertexCount);
 }
 
 void Mesh::setIndices(int * indices, int indexCount)
@@ -57,7 +57,12 @@ int Mesh::TriangleCount()
 	return triangleCount;
 }
 
-glm::vec3 * const Mesh::Vertices()
+int Mesh::MeshType()
+{
+	return meshType;
+}
+
+Vertex * const Mesh::Vertices()
 {
 	return vertices.data();
 }
