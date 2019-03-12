@@ -128,21 +128,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="InterleavedVertex.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OpenGLLoader.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileLoader.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="InterleavedVertex.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OpenGLLoader.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader.fs" />
+    <None Include="shader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

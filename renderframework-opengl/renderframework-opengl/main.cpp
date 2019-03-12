@@ -8,6 +8,7 @@
 #include "Timer.h"
 #include "Mesh.h"
 #include "Square.h"
+#include "Shader.h"
 
 ///globals
 //screen
@@ -86,6 +87,8 @@ int main(char** argv, int argc)
 	glAttachShader(shader_programme, vs);
 	glLinkProgram(shader_programme);
 
+	Shader colShader("shader.vs", "shader.fs");
+
 	Mesh triangle;
 	
 	Vertex triVertices[3];
@@ -154,7 +157,8 @@ int main(char** argv, int argc)
 		//render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(shader_programme);
+		//glUseProgram(shader_programme);
+		colShader.use();
 		//bind
 		square.draw();
 		//draw
