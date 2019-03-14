@@ -3,12 +3,17 @@
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include "HelperFunctions.h"
 #include "OpenGLLoader.h"
 #include "Timer.h"
 #include "Mesh.h"
 #include "Square.h"
 #include "Shader.h"
+#include "Texture.h"
 
 ///globals
 //screen
@@ -52,6 +57,7 @@ void onWindowResizeCallback(GLFWwindow* window, int width, int height)
 
 int main(char** argv, int argc)
 {
+	stbi_set_flip_vertically_on_load(true);
 	OpenGLLoader* instance;
 	///test glm included correctly
 	glm::mat4 identity(1.0f);
@@ -88,6 +94,7 @@ int main(char** argv, int argc)
 	glLinkProgram(shader_programme);
 
 	Shader colShader("shader.vs", "shader.fs");
+	Shader textureShader("coltex-shader.vs", "coltex-shader.fs");
 
 	Mesh triangle;
 	
@@ -115,7 +122,9 @@ int main(char** argv, int argc)
 	Vertex rectangleVerts[4];
 	//tri strip arrangement
 	rectangleVerts[0].pos = glm::vec3(-0.5f, -0.5f, 0);
+	rectangleVerts[0].colour = Colour::Blue();
 	rectangleVerts[1].pos = glm::vec3(0.5f, -0.5f, 0);
+	rectangleVerts[1].colour = Colour::Blue();
 	rectangleVerts[2].pos = glm::vec3(-0.5f, 0.5f, 0);
 	rectangleVerts[3].pos = glm::vec3(0.5f, 0.5f, 0);
 
@@ -139,6 +148,9 @@ int main(char** argv, int argc)
 	int clearConsolePerFrame = 10;
 
 	Square square;
+
+	Texture containerTexture("container.jpg");
+
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing variables
@@ -158,10 +170,14 @@ int main(char** argv, int argc)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glUseProgram(shader_programme);
-		colShader.use();
 		//bind
-		square.draw();
+		//colShader.use();
+		textureShader.use();
+		containerTexture.use();
+
 		//draw
+		square.draw();
+		
 
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());

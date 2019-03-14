@@ -4,14 +4,8 @@
 #include <string>
 #include <iostream>
 
-void printLine(std::string &message)
-{
-	std::cout << message << std::endl;
-}
+void printLine(std::string &message);
 
-void printLine(std::string message)
-{
-	std::cout << message << std::endl;
-}
+void printLine(std::string message);
 
 #endif

@@ -33,9 +33,14 @@ void Square::setupMesh()
 	Vertex vertices[4];
 	//setup the positions
 	vertices[0].pos = glm::vec3(-0.5f, 0.5f, 0); //TL
+	//vertices[0].colour = Colour::Blue();
+	vertices[0].uv = glm::vec2(0, 1);
 	vertices[1].pos = glm::vec3(-0.5f, -0.5f, 0); //BL
+	vertices[1].uv = glm::vec2(0, 0);
 	vertices[2].pos = glm::vec3(0.5f, 0.5f, 0); //TR
+	vertices[2].uv = glm::vec2(1, 1);
 	vertices[3].pos = glm::vec3(0.5f, -0.5f, 0); //BR
+	vertices[3].uv = glm::vec2(1, 0);
 	
 	//setup the indices
 	int indices[6]{ 
@@ -66,5 +71,7 @@ void Square::setupVAO()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, Vertex::colour)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(offsetof(Vertex, Vertex::uv)));
+	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferID);
 }

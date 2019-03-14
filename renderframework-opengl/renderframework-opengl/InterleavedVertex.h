@@ -23,7 +23,7 @@ struct Vertex
 public:
 	glm::vec3 pos;
 	Colour colour;
-	float u, v;
+	glm::vec2 uv;
 };
 
 #endif
