@@ -139,6 +139,7 @@
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileLoader.h" />
@@ -151,16 +152,21 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="coltex-shader.fs" />
     <None Include="coltex-shader.vs" />
     <None Include="shader.fs" />
     <None Include="shader.vs" />
+    <None Include="transform-coltex-shader.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png" />
     <Image Include="container.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Todo-list.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

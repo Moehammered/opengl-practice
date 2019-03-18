@@ -1,0 +1,16 @@
+Transformations
+	Translation, rotation, scale
+
+	quaternions
+		http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-17-quaternions/
+		to read: 
+			https://github.com/fehaar/FFWD/blob/master/Framework/PressPlay.FFWD/Quaternion.cs
+			https://github.com/Moehammered/MonogameLearning/blob/master/Pathfinding/Pathfinding/BaseComponents/Transform.cs
+
+Transform component made
+	Can rotate, but needs tests to see what is bugged/misoriented
+	position is fine
+	needs functions to automatically return its mat4 representations
+				OR
+	create a helper header that will have functions to automatically get the required mat4
+	(probably better... maybe)

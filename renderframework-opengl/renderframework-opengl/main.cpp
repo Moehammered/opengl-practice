@@ -14,11 +14,13 @@
 #include "Square.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Transform.h"
 
 ///globals
 //screen
 int SCREEN_WIDTH = 800;
 int SCREEN_HEIGHT = 600;
+int renderSwitch = 0;
 
 //shaders
 
@@ -46,6 +48,10 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	else if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+		renderSwitch = 1;
+	else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+		renderSwitch = 0;
 }
 
 void onWindowResizeCallback(GLFWwindow* window, int width, int height)
@@ -95,6 +101,7 @@ int main(char** argv, int argc)
 
 	Shader colShader("shader.vs", "shader.fs");
 	Shader textureShader("coltex-shader.vs", "coltex-shader.fs");
+	Shader transformShader("transform-coltex-shader.vs", "coltex-shader.fs");
 
 	Mesh triangle;
 	
@@ -148,8 +155,30 @@ int main(char** argv, int argc)
 	int clearConsolePerFrame = 10;
 
 	Square square;
+	Square square2;
 
 	Texture containerTexture("container.jpg");
+	Texture faceTexture("awesomeface.png");
+
+	Transform sq1Tran;
+	sq1Tran.position = glm::vec3(-0.5f, 0, 0);
+	sq1Tran.rotate(glm::vec3(1, 0, 0), 10);
+	glm::mat4 sq1World(1);
+	sq1World = glm::translate(sq1World, sq1Tran.position);
+	glm::mat4 rotMat = glm::mat4_cast(sq1Tran.Rotation());
+	sq1World = rotMat * sq1World;
+	sq1World = glm::scale(sq1World, sq1Tran.scale);
+
+	Transform sq2Tran;
+	sq2Tran.position = glm::vec3(0.5f, 0, 0);
+	glm::mat4 sq2World(1);
+	sq2World = glm::translate(sq2World, sq2Tran.position);
+	rotMat = glm::mat4_cast(sq2Tran.Rotation());
+	sq2World = rotMat * sq2World;
+	sq2World = glm::scale(sq2World, sq2Tran.scale);
+
+	unsigned int transformLoc = glGetUniformLocation(transformShader.ID(), "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(sq1World));
 
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
@@ -172,12 +201,22 @@ int main(char** argv, int argc)
 		//glUseProgram(shader_programme);
 		//bind
 		//colShader.use();
-		textureShader.use();
-		containerTexture.use();
+		//textureShader.use();
+		transformShader.use();
 
-		//draw
-		square.draw();
-		
+		//if (renderSwitch == 0)
+		{
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(sq1World));
+			containerTexture.use();
+			//draw
+			square.draw();
+		}
+		//else
+		{
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(sq2World));
+			faceTexture.use();
+			square2.draw();
+		}
 
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());
