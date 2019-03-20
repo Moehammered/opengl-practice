@@ -13,7 +13,7 @@ public:
 	~Transform();
 
 	//getters - protect the values that rely on each other when changed
-	glm::quat Rotation();
+	const glm::quat Rotation() const;
 	glm::vec3 Up();
 	glm::vec3 Forward();
 	glm::vec3 Right();

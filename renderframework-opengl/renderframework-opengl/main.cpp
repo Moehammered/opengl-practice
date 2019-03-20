@@ -15,6 +15,9 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Transform.h"
+#include "TransformHelperFunctions.h"
+#include "Camera.h"
+#include "StaticMesh.h"
 
 ///globals
 //screen
@@ -43,6 +46,106 @@ const char* fragment_shader =
 "}";
 ///globals
 
+void setupCubeStaticMesh(StaticMesh& mesh)
+{
+	mesh.useTriangleList();
+	Vertex vertices[8];
+	//setup the positions
+	vertices[0].pos = glm::vec3(-0.5f, 0.5f, 0.5f); //FTL
+	//vertices[0].colour = Colour::Blue();
+	vertices[0].uv = glm::vec2(0, 1);
+	vertices[1].pos = glm::vec3(-0.5f, -0.5f, 0.5f); //FBL
+	vertices[1].uv = glm::vec2(0, 0);
+	vertices[2].pos = glm::vec3(0.5f, 0.5f, 0.5f); //FTR
+	vertices[2].uv = glm::vec2(1, 1);
+	vertices[3].pos = glm::vec3(0.5f, -0.5f, 0.5f); //FBR
+	vertices[3].uv = glm::vec2(1, 0);
+
+	
+	vertices[4].pos = glm::vec3(0.5f, 0.5f, -0.5f); //BTR
+	//vertices[0].colour = Colour::Blue();
+	vertices[4].uv = glm::vec2(0, 1);
+	vertices[5].pos = glm::vec3(0.5f, -0.5f, -0.5f); //BBR
+	vertices[5].uv = glm::vec2(0, 0);
+	vertices[6].pos = glm::vec3(-0.5f, 0.5f, -0.5f); //BTL
+	vertices[6].uv = glm::vec2(1, 1);
+	vertices[7].pos = glm::vec3(-0.5f, -0.5f, -0.5f); //BBL
+	vertices[7].uv = glm::vec2(1, 0);
+
+	//setup the indices
+	int indices[36]{
+		0, 1, 2,	//1st tri //front face
+		2, 1, 3,	//2nd tri
+
+		4, 2, 3,	//1st tri //right face
+		4, 3, 5,	//2nd tri
+
+		4, 5, 6,	//1st tri //back face
+		5, 7, 6,	//2nd tri
+
+		0, 6, 7,	//1st tri //left face
+		0, 7, 1,	//2nd tri
+
+		6, 0, 2,	//1st tri //top face
+		6, 2, 4,	//2nd tri
+
+		3, 1, 7,	//1st tri //bottom face
+		3, 7, 5		//2nd tri
+	};
+
+	mesh.setVertices(vertices, 8);
+	mesh.setIndices(indices, 36);
+	mesh.updateMesh();
+}
+
+void setupTriangleStaticMesh(StaticMesh& mesh)
+{
+	mesh.useTriangleList();
+	Vertex vertices[3];
+	//setup the positions
+	vertices[0].pos = glm::vec3(0, 0.5f, 0); //TM
+	//vertices[0].colour = Colour::Blue();
+	vertices[0].uv = glm::vec2(0.5f, 1);
+	vertices[1].pos = glm::vec3(-0.5f, -0.5f, 0); //BL
+	vertices[1].uv = glm::vec2(0, 0);
+	vertices[2].pos = glm::vec3(0.5f, -0.5f, 0); //BR
+	vertices[2].uv = glm::vec2(1, 0);
+
+	//setup the indices
+	int indices[3]{
+		0, 1, 2	//1st tri
+	};
+
+	mesh.setVertices(vertices, 3);
+	mesh.setIndices(indices, 3);
+	mesh.updateMesh();
+}
+
+void setupSquareStaticMesh(StaticMesh& mesh)
+{
+	mesh.useTriangleList();
+	Vertex vertices[4];
+	//setup the positions
+	vertices[0].pos = glm::vec3(-0.5f, 0.5f, 0); //TL
+	//vertices[0].colour = Colour::Blue();
+	vertices[0].uv = glm::vec2(0, 1);
+	vertices[1].pos = glm::vec3(-0.5f, -0.5f, 0); //BL
+	vertices[1].uv = glm::vec2(0, 0);
+	vertices[2].pos = glm::vec3(0.5f, 0.5f, 0); //TR
+	vertices[2].uv = glm::vec2(1, 1);
+	vertices[3].pos = glm::vec3(0.5f, -0.5f, 0); //BR
+	vertices[3].uv = glm::vec2(1, 0);
+
+	//setup the indices
+	int indices[6]{
+		0, 1, 2,	//1st tri
+		2, 1, 3		//2nd tri
+	};
+
+	mesh.setVertices(vertices, 4);
+	mesh.setIndices(indices, 6);
+	mesh.updateMesh();
+}
 
 void processInput(GLFWwindow* window)
 {
@@ -154,31 +257,47 @@ int main(char** argv, int argc)
 	Timer::tick();
 	int clearConsolePerFrame = 10;
 
+	Camera mainCam;
+	mainCam.transform.position = glm::vec3(0, 5, 15);
+	//mainCam.transform.Rotation(glm::angleAxis(glm::radians(20.0f), glm::vec3(1,0,0))); //rotation is radians!!
+	mainCam.transform.rotate(glm::vec3(1, 0, 0), 20); //something weird is happening....
+	mainCam.updateView();
+
 	Square square;
 	Square square2;
+	StaticMesh stMesh, triStMesh, cubeSt;
+	setupSquareStaticMesh(stMesh);
+	setupTriangleStaticMesh(triStMesh);
+	setupCubeStaticMesh(cubeSt);
 
 	Texture containerTexture("container.jpg");
 	Texture faceTexture("awesomeface.png");
 
 	Transform sq1Tran;
-	sq1Tran.position = glm::vec3(-0.5f, 0, 0);
-	sq1Tran.rotate(glm::vec3(1, 0, 0), 10);
-	glm::mat4 sq1World(1);
-	sq1World = glm::translate(sq1World, sq1Tran.position);
-	glm::mat4 rotMat = glm::mat4_cast(sq1Tran.Rotation());
-	sq1World = rotMat * sq1World;
-	sq1World = glm::scale(sq1World, sq1Tran.scale);
+	sq1Tran.position = glm::vec3(0, 0, 0);
+	sq1Tran.rotate(glm::vec3(-1, 0, 0), 90);
+	sq1Tran.scale = glm::vec3(10, 10, 10);
 
 	Transform sq2Tran;
-	sq2Tran.position = glm::vec3(0.5f, 0, 0);
-	glm::mat4 sq2World(1);
-	sq2World = glm::translate(sq2World, sq2Tran.position);
-	rotMat = glm::mat4_cast(sq2Tran.Rotation());
-	sq2World = rotMat * sq2World;
-	sq2World = glm::scale(sq2World, sq2Tran.scale);
+	sq2Tran.position = glm::vec3(0.5f, 0, -5);
+	sq2Tran.rotate(glm::vec3(0, 0, 1), 10);
+	sq2Tran.scale = glm::vec3(2, 2, 2);
+
+	Transform cubeTran;
+	glm::vec3 cubeRotAxis(1.6f, 1, 0);
+	float cubeRotAngle = 1;
+	cubeTran.position = glm::vec3(0, 2, 0);
+	cubeTran.rotate(cubeRotAxis, cubeRotAngle);
+
+	glm::mat4 s1World, s2World, cubeWorld;
+	s1World = transformToMatrix(sq1Tran);
+	s2World = transformToMatrix(sq2Tran);
+	cubeWorld = transformToMatrix(cubeTran);
 
 	unsigned int transformLoc = glGetUniformLocation(transformShader.ID(), "transform");
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(sq1World));
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(s1World));
+
+	glEnable(GL_CULL_FACE);
 
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
@@ -206,17 +325,28 @@ int main(char** argv, int argc)
 
 		//if (renderSwitch == 0)
 		{
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(sq1World));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * s1World));
 			containerTexture.use();
 			//draw
-			square.draw();
+			//square.draw();
+			stMesh.draw();
 		}
 		//else
 		{
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(sq2World));
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * s2World));
 			faceTexture.use();
-			square2.draw();
+			//square2.draw();
+			triStMesh.draw();
 		}
+
+		
+		cubeTran.rotate(cubeRotAxis, cubeRotAngle);
+		cubeWorld = transformToMatrix(cubeTran);
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * cubeWorld));
+		containerTexture.use();
+		//draw
+		//square.draw();
+		cubeSt.draw();
 
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());

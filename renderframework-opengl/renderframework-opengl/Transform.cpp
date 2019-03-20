@@ -21,7 +21,7 @@ Transform::~Transform()
 {
 }
 
-glm::quat Transform::Rotation()
+const glm::quat Transform::Rotation() const
 {
 	return rotation;
 }
@@ -64,7 +64,7 @@ void Transform::translate(glm::vec3 delta)
 
 void Transform::rotate(glm::vec3 axis, float angle)
 {
-	Rotation(glm::angleAxis(angle, axis) * rotation);
+	Rotation(glm::angleAxis(glm::radians(angle), axis) * rotation);
 }
 
 void Transform::lookAt(glm::vec3 target)

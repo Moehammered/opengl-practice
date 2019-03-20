@@ -14,3 +14,17 @@ Transform component made
 				OR
 	create a helper header that will have functions to automatically get the required mat4
 	(probably better... maybe)
+
+Camera component made
+	can create a view and projection matrix
+	moves around with a transform
+	can be updated
+
+
+Next
+	begin entity component design
+	create primitive shape types
+		-cube (done but UVs are screwed for top and bottom face)
+			should make individual points for the cube since each face has it's own UVs
+		-sphere
+		-cylinder
