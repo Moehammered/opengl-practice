@@ -1,6 +1,6 @@
 #include "StaticMesh.h"
 #include <glad\glad.h>
-
+#include <iostream>
 
 StaticMesh::StaticMesh()
 {

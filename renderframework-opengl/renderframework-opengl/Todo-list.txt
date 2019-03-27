@@ -22,9 +22,13 @@ Camera component made
 
 
 Next
+	Make an fps demo to test transforms
+		-started basic movement
+		-needs rotation
 	begin entity component design
 	create primitive shape types
 		-cube (done but UVs are screwed for top and bottom face)
 			should make individual points for the cube since each face has it's own UVs
 		-sphere
+			http://www.songho.ca/opengl/gl_sphere.html#icosphere
 		-cylinder
