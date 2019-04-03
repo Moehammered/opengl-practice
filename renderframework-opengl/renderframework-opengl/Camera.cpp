@@ -10,7 +10,7 @@ Camera::Camera()
 	nearPlane = 0.1f;
 	farPlane = 1000.0f;
 
-	view = glm::lookAt(transform.position, transform.position - transform.Forward(), transform.Up());
+	view = glm::lookAt(transform.position, transform.position + transform.Forward(), transform.Up());
 	projection = glm::perspective(fov, aspect, nearPlane, farPlane);
 }
 
@@ -55,7 +55,7 @@ glm::mat4 Camera::Projection() const
 
 glm::mat4 Camera::ProjView() const
 {
-	return projection * view;
+	return projection * /*glm::inverse*/(view);
 }
 
 void Camera::setAspectRatio(float width, float height)

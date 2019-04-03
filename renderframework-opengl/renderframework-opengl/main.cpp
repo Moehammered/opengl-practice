@@ -31,6 +31,7 @@ typedef struct {
 //fps demo variables
 glm::vec3 pl_rot;
 float pl_movespeed;
+float pl_rotationspeed;
 glm::vec3 pl_dir;
 
 //screen
@@ -46,15 +47,16 @@ void updatePlayer(GameObject& pl_go)
 void setupPlayer(GameObject& pl_go)
 {
 	PrimitiveShapes::CreateCube(pl_go.mesh);
-	pl_go.transform.position = glm::vec3(0, 1, -1);
+	pl_go.transform.position = glm::vec3(-5, 1, -5);
 	pl_go.transform.scale = glm::vec3(3, 3, 3);
 
 	pl_movespeed = 5;
+	pl_rotationspeed = 30;
 
 	updatePlayer(pl_go);
 }
 
-void processPlayerInput(GameObject& pl_go, GLFWwindow* const window)
+void checkPlayerMovement(GameObject& pl_go, GLFWwindow* const window)
 {
 	pl_dir.x = 0;
 	pl_dir.y = 0;
@@ -82,16 +84,55 @@ void processPlayerInput(GameObject& pl_go, GLFWwindow* const window)
 		updatePos = true;
 	}
 
-	pl_dir.y = 0; 
+	pl_dir.y = 0;
 	if (updatePos)
 	{
 		pl_dir = glm::normalize(pl_dir);
-	
+
 		pl_go.transform.position += pl_dir * pl_movespeed * Timer::DeltaTime();
 		updatePlayer(pl_go);
 	}
 }
 
+void checkPlayerRotation(GameObject& pl_go, GLFWwindow* const window)
+{
+	pl_rot.x = 0;
+	pl_rot.y = 0;
+	pl_rot.z = 0;
+	bool updateRotation = false;
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		pl_rot.y = -1;
+		updateRotation = true;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		pl_rot.y = 1;
+		updateRotation = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		pl_rot.x = 1;
+		updateRotation = true;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		pl_rot.x = -1;
+		updateRotation = true;
+	}
+
+	if (updateRotation)
+	{
+		pl_go.transform.rotate(pl_rot, pl_rotationspeed * Timer::DeltaTime());
+		updatePlayer(pl_go);
+	}
+}
+
+void processPlayerInput(GameObject& pl_go, GLFWwindow* const window)
+{
+	checkPlayerRotation(pl_go, window);
+	checkPlayerMovement(pl_go, window);
+}
 
 void drawPlayer(GameObject& pl_go, unsigned int transformLoc, Camera mainCam)
 {
@@ -150,9 +191,10 @@ int main(char** argv, int argc)
 	//int clearConsolePerFrame = 10;
 
 	Camera mainCam;
-	mainCam.transform.position = glm::vec3(0, 5, 15);
+	mainCam.transform.position = glm::vec3(0, 10, 15);
+	mainCam.transform.lookAt(glm::vec3(0, 0, 0));
 	//mainCam.transform.Rotation(glm::angleAxis(glm::radians(20.0f), glm::vec3(1,0,0))); //rotation is radians!!
-	mainCam.transform.rotate(glm::vec3(1, 0, 0), 20); //something weird is happening....
+	//mainCam.transform.rotate(glm::vec3(1, 0, 0), 20); //something weird is happening....
 	mainCam.updateView();
 
 	StaticMesh stMesh, triStMesh, cubeSt;
@@ -233,6 +275,7 @@ int main(char** argv, int argc)
 		}
 
 		
+		cubeTran.position = pl_go.transform.position - (pl_go.transform.Forward() * 2.0f);
 		cubeTran.rotate(cubeRotAxis, cubeRotAngle);
 		cubeWorld = transformToMatrix(cubeTran);
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * cubeWorld));

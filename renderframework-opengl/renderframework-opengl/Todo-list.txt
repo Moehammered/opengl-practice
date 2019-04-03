@@ -24,7 +24,8 @@ Camera component made
 Next
 	Make an fps demo to test transforms
 		-started basic movement
-		-needs rotation
+		-needs rotation ------------------
+			-rotation is inverted, mainly orientation vectors are
 	begin entity component design
 	create primitive shape types
 		-cube (done but UVs are screwed for top and bottom face)

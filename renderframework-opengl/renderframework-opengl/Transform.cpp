@@ -45,7 +45,7 @@ void Transform::Rotation(glm::quat value)
 {
 	rotation = value;
 	//recalculate up, forward, right
-	up = glm::vec3(0, 1, 0) * rotation;
+	up = rotation * glm::vec3(0, 1, 0);
 	forward = glm::vec3(0, 0, -1) * rotation;
 	right = glm::vec3(1, 0, 0) * rotation;
 }
@@ -64,7 +64,7 @@ void Transform::translate(glm::vec3 delta)
 
 void Transform::rotate(glm::vec3 axis, float angle)
 {
-	Rotation(glm::angleAxis(glm::radians(angle), axis) * rotation);
+	Rotation(rotation * glm::angleAxis(glm::radians(angle), axis));
 }
 
 void Transform::lookAt(glm::vec3 target)
