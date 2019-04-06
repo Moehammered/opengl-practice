@@ -3,6 +3,7 @@
 
 #include <glm\glm.hpp>
 #include <glm\gtc\quaternion.hpp>
+#include <string>
 
 class Transform
 {
@@ -24,6 +25,8 @@ public:
 	void translate(glm::vec3 delta);
 	void rotate(glm::vec3 axis, float angle);
 	void lookAt(glm::vec3 target);
+
+	std::string toString();
 
 private:
 	glm::vec3 up, forward, right;

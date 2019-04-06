@@ -21,11 +21,20 @@ Camera component made
 	can be updated
 
 
+Debugging Features
+	Add line rendering class
+
+;;;;;;;;;;;;Orientation debugging;;;;;;;
+	Seems like orientation vectors are fine, but the actual rendering is inverted??
+	see - https://community.khronos.org/t/get-direction-from-transformation-matrix-or-quat/65502/2
+		seems to work when extracting the directions from rot matrix but the forward vector is flipped........
+
 Next
 	Make an fps demo to test transforms
 		-started basic movement
 		-needs rotation ------------------
 			-rotation is inverted, mainly orientation vectors are
+				
 	begin entity component design
 	create primitive shape types
 		-cube (done but UVs are screwed for top and bottom face)

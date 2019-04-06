@@ -133,6 +133,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="InterleavedVertex.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OpenGLLoader.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="FileLoader.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="InterleavedVertex.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OpenGLLoader.h" />
     <ClInclude Include="PrimitiveShapes.h" />

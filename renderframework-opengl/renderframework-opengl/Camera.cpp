@@ -76,5 +76,5 @@ void Camera::updateProjection()
 
 void Camera::updateView()
 {
-	view = glm::lookAt(transform.position, transform.position + transform.Forward(), transform.Up());
+	view = glm::lookAt(transform.position, transform.position + transform.Forward(), glm::vec3(0,1, 0));
 }

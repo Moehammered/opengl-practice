@@ -19,6 +19,7 @@
 #include "Camera.h"
 #include "StaticMesh.h"
 #include "PrimitiveShapes.h"
+#include "Line.h"
 
 ///globals
 
@@ -89,8 +90,10 @@ void checkPlayerMovement(GameObject& pl_go, GLFWwindow* const window)
 	{
 		pl_dir = glm::normalize(pl_dir);
 
-		pl_go.transform.position += pl_dir * pl_movespeed * Timer::DeltaTime();
+		pl_go.transform.position -= pl_dir * pl_movespeed * Timer::DeltaTime();
 		updatePlayer(pl_go);
+
+		std::cout << "Position: " << vec3ToString(pl_go.transform.position) << std::endl;
 	}
 }
 
@@ -104,11 +107,17 @@ void checkPlayerRotation(GameObject& pl_go, GLFWwindow* const window)
 	{
 		pl_rot.y = -1;
 		updateRotation = true;
+		
+		std::cout << "Forward: " << vec3ToString(pl_go.transform.Forward()) << std::endl;
+		std::cout << "Right: " << vec3ToString(pl_go.transform.Right()) << std::endl;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
 		pl_rot.y = 1;
 		updateRotation = true;
+
+		std::cout << "Forward: " << vec3ToString(pl_go.transform.Forward()) << std::endl;
+		std::cout << "Right: " << vec3ToString(pl_go.transform.Right()) << std::endl;
 	}
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	{
@@ -182,6 +191,10 @@ int main(char** argv, int argc)
 	Shader transformShader("transform-coltex-shader.vs", "coltex-shader.fs");
 
 
+	Line line_z(glm::vec3(0,0,0), glm::vec3(0,0,-50), Colour::Blue());
+	Line line_y(glm::vec3(0, 0, 0), glm::vec3(0, 50, 0), Colour::Green());
+	Line line_x(glm::vec3(0, 0, 0), glm::vec3(50, 0, 0), Colour::Red());
+
 	//player setup
 	GameObject pl_go;
 	setupPlayer(pl_go);
@@ -190,8 +203,18 @@ int main(char** argv, int argc)
 	Timer::tick();
 	//int clearConsolePerFrame = 10;
 
+	///attempt to make a view and projection manually
+
+	glm::vec3 camPos, camTarget, camUp;
+	//glm::mat4 view = glm::lookAt(, , );
+
+	///
+
 	Camera mainCam;
-	mainCam.transform.position = glm::vec3(0, 10, 15);
+	mainCam.transform.position = glm::vec3(3, 10, 15);
+	//bugged, up orientation is not working
+		//due to the lookat function for the camera's view being oriented
+		//via the quaternion... updateView uses a global up and works
 	mainCam.transform.lookAt(glm::vec3(0, 0, 0));
 	//mainCam.transform.Rotation(glm::angleAxis(glm::radians(20.0f), glm::vec3(1,0,0))); //rotation is radians!!
 	//mainCam.transform.rotate(glm::vec3(1, 0, 0), 20); //something weird is happening....
@@ -275,7 +298,7 @@ int main(char** argv, int argc)
 		}
 
 		
-		cubeTran.position = pl_go.transform.position - (pl_go.transform.Forward() * 2.0f);
+		cubeTran.position = pl_go.transform.position + (pl_go.transform.Right() * 2.0f);
 		cubeTran.rotate(cubeRotAxis, cubeRotAngle);
 		cubeWorld = transformToMatrix(cubeTran);
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * cubeWorld));
@@ -285,6 +308,11 @@ int main(char** argv, int argc)
 		cubeSt.draw();
 
 		drawPlayer(pl_go, transformLoc, mainCam);
+		
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * glm::mat4(1)));
+		line_z.draw();
+		line_y.draw();
+		line_x.draw();
 
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());

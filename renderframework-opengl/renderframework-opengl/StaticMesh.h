@@ -10,7 +10,7 @@ public:
 	~StaticMesh();
 
 	void updateMesh(); //calling this causes the VAO to be updated with vert data
-	void draw(); //might move this into the render component, or keep it as an interface function
+	virtual void draw(); //might move this into the render component, or keep it as an interface function
 
 protected:
 	unsigned int vertexArrayID, vertexBufferID, elementBufferID;
