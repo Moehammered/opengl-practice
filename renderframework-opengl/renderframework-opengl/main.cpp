@@ -85,15 +85,16 @@ void checkPlayerMovement(GameObject& pl_go, GLFWwindow* const window)
 		updatePos = true;
 	}
 
-	pl_dir.y = 0;
+	//pl_dir.y = 0;
 	if (updatePos)
 	{
 		pl_dir = glm::normalize(pl_dir);
-
-		pl_go.transform.position -= pl_dir * pl_movespeed * Timer::DeltaTime();
+		glm::vec3 moveDelta = pl_dir * pl_movespeed;
+		pl_go.transform.position += moveDelta * Timer::DeltaTime();
 		updatePlayer(pl_go);
 
-		std::cout << "Position: " << vec3ToString(pl_go.transform.position) << std::endl;
+		/*std::cout << "Delta: " << vec3ToString(moveDelta) << std::endl;
+		std::cout << "Position: " << vec3ToString(pl_go.transform.position) << std::endl;*/
 	}
 }
 
@@ -108,16 +109,16 @@ void checkPlayerRotation(GameObject& pl_go, GLFWwindow* const window)
 		pl_rot.y = -1;
 		updateRotation = true;
 		
-		std::cout << "Forward: " << vec3ToString(pl_go.transform.Forward()) << std::endl;
-		std::cout << "Right: " << vec3ToString(pl_go.transform.Right()) << std::endl;
+		/*std::cout << "Forward: " << vec3ToString(pl_go.transform.Forward()) << std::endl;
+		std::cout << "Right: " << vec3ToString(pl_go.transform.Right()) << std::endl;*/
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
 		pl_rot.y = 1;
 		updateRotation = true;
 
-		std::cout << "Forward: " << vec3ToString(pl_go.transform.Forward()) << std::endl;
-		std::cout << "Right: " << vec3ToString(pl_go.transform.Right()) << std::endl;
+		/*std::cout << "Forward: " << vec3ToString(pl_go.transform.Forward()) << std::endl;
+		std::cout << "Right: " << vec3ToString(pl_go.transform.Right()) << std::endl;*/
 	}
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	{
@@ -211,7 +212,7 @@ int main(char** argv, int argc)
 	///
 
 	Camera mainCam;
-	mainCam.transform.position = glm::vec3(3, 10, 15);
+	mainCam.transform.position = glm::vec3(3, 18, 15);
 	//bugged, up orientation is not working
 		//due to the lookat function for the camera's view being oriented
 		//via the quaternion... updateView uses a global up and works
@@ -255,6 +256,9 @@ int main(char** argv, int argc)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 
+	int maxLines = 5;
+	int clearConsolePerFrame = maxLines;
+	
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing variables
@@ -263,8 +267,11 @@ int main(char** argv, int argc)
 		//if (clearConsolePerFrame <= 0)
 		//{
 		//	system("CLS"); //this is terrabad... don't use it
-		//	clearConsolePerFrame = 10;
+		//	clearConsolePerFrame = maxLines;
 		//}
+		//printLine("pos: " + vec3ToString(pl_go.transform.position));
+		//printLine("fwd: " + vec3ToString(pl_go.transform.Forward()));
+		//printLine("rgt: " + vec3ToString(pl_go.transform.Right()));
 		//
 		//printLine("deltaTime: " + std::to_string(Timer::DeltaTime()));
 		//check input
@@ -298,7 +305,7 @@ int main(char** argv, int argc)
 		}
 
 		
-		cubeTran.position = pl_go.transform.position + (pl_go.transform.Right() * 2.0f);
+		cubeTran.position = pl_go.transform.position + (pl_go.transform.Forward() * 2.0f);
 		cubeTran.rotate(cubeRotAxis, cubeRotAngle);
 		cubeWorld = transformToMatrix(cubeTran);
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * cubeWorld));

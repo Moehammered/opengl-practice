@@ -2,6 +2,7 @@
 
 #include <glm\gtc\matrix_transform.hpp>
 #include "TransformHelperFunctions.h"
+#include <iostream>
 
 Camera::Camera()
 {
@@ -76,5 +77,9 @@ void Camera::updateProjection()
 
 void Camera::updateView()
 {
-	view = glm::lookAt(transform.position, transform.position + transform.Forward(), glm::vec3(0,1, 0));
+	glm::vec3 lookat = /*glm::vec3(0)*/transform.position + transform.Forward();
+	glm::vec3 rotlookat = lookat * transform.Rotation();
+	std::cout << "cam update lookat: " << vec3ToString(lookat) << std::endl;
+	std::cout << "cam update rotlookat: " << vec3ToString(rotlookat) << std::endl;
+	view = glm::lookAt(transform.position, lookat, transform.Up());
 }

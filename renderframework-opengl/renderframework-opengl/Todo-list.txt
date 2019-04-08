@@ -25,9 +25,18 @@ Debugging Features
 	Add line rendering class
 
 ;;;;;;;;;;;;Orientation debugging;;;;;;;
+	FIXED!!!!!!!!!!!!!!!!
+		https://stackoverflow.com/questions/18151845/converting-glmlookat-matrix-to-quaternion-and-back
+		the lookat function makes a matrix ready for view transformation (pre-inverted)
+		thus the matrix needed to be conjugated to get the actual orientation before
+			(so should make own lookat)
 	Seems like orientation vectors are fine, but the actual rendering is inverted??
 	see - https://community.khronos.org/t/get-direction-from-transformation-matrix-or-quat/65502/2
 		seems to work when extracting the directions from rot matrix but the forward vector is flipped........
+	Found the cause
+		The update view function seems to work if I do not use the transform.position + transform.Forward() for the lookat.
+		Meaning, the lookat function of the transform class is not accurate/correct
+		http://joestevens.net/post/20063172257/alternate-view-matrix-construction
 
 Next
 	Make an fps demo to test transforms
