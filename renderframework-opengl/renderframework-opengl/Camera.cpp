@@ -77,9 +77,6 @@ void Camera::updateProjection()
 
 void Camera::updateView()
 {
-	glm::vec3 lookat = /*glm::vec3(0)*/transform.position + transform.Forward();
-	glm::vec3 rotlookat = lookat * transform.Rotation();
-	std::cout << "cam update lookat: " << vec3ToString(lookat) << std::endl;
-	std::cout << "cam update rotlookat: " << vec3ToString(rotlookat) << std::endl;
+	glm::vec3 lookat = transform.position + transform.Forward();
 	view = glm::lookAt(transform.position, lookat, transform.Up());
 }

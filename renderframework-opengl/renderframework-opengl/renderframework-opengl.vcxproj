@@ -129,15 +129,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="FileLoader.cpp" />
+    <ClCompile Include="FPSDemo.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="HelperFunctions.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="InterleavedVertex.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OpenGLLoader.cpp" />
     <ClCompile Include="PrimitiveShapes.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
@@ -148,13 +152,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="FileLoader.h" />
+    <ClInclude Include="FPSDemo.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="HelperFunctions.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="InterleavedVertex.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OpenGLLoader.h" />
     <ClInclude Include="PrimitiveShapes.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="StaticMesh.h" />

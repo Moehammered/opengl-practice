@@ -13,9 +13,6 @@ Transform::Transform()
 	position = glm::vec3(0);
 	scale = glm::vec3(1);
 	Rotation(glm::quat());
-	/*forward = glm::vec3(0, 0, -1);
-	right = glm::vec3(1, 0, 0);
-	up = glm::vec3(0, 1, 0);*/
 }
 
 
@@ -26,6 +23,22 @@ Transform::~Transform()
 const glm::quat Transform::Rotation() const
 {
 	return rotation;
+}
+
+const glm::mat4 Transform::RotationMat4() const
+{
+	return rotationMat4;
+}
+
+const glm::mat4 Transform::TransformMat4() const
+{
+	glm::mat4 transformMat4;
+	transformMat4 = glm::translate(glm::mat4(1.0f), position);
+	glm::mat4 rotMat = glm::mat4_cast(Rotation());
+	transformMat4 = transformMat4 * rotMat; // right to left (rotate first, then move according to the transformMat4)
+	transformMat4 = glm::scale(transformMat4, scale);
+
+	return transformMat4;
 }
 
 glm::vec3 Transform::Up()
@@ -46,17 +59,11 @@ glm::vec3 Transform::Right()
 void Transform::Rotation(glm::quat value)
 {
 	rotation = value;
-	//recalculate up, forward, right
-	/*up = rotation * glm::vec3(0, 1, 0);
-	forward = glm::vec3(0, 0, -1) * rotation;*/
-	//right = glm::vec3(1, 0, 0) * rotation;
-	//right = glm::cross(forward, up) * rotation;
-	//up = glm::cross(forward, right);
 	//working
-	glm::mat4 rotMat = glm::mat4_cast(rotation);
-	right = glm::vec3(rotMat[0][0], rotMat[0][1], rotMat[0][2]);
-	up = glm::vec3(rotMat[1][0], rotMat[1][1], rotMat[1][2]);
-	forward = -glm::normalize(glm::vec3(rotMat[2][0], rotMat[2][1], rotMat[2][2]));
+	rotationMat4 = glm::mat4_cast(rotation);
+	right = glm::vec3(rotationMat4[0][0], rotationMat4[0][1], rotationMat4[0][2]);
+	up = glm::vec3(rotationMat4[1][0], rotationMat4[1][1], rotationMat4[1][2]);
+	forward = -glm::normalize(glm::vec3(rotationMat4[2][0], rotationMat4[2][1], rotationMat4[2][2]));
 }
 
 void Transform::translate(float x, float y, float z)
@@ -79,14 +86,8 @@ void Transform::rotate(glm::vec3 axis, float angle)
 //WORKS!!!! OMG THANK GOD!! --- https://stackoverflow.com/questions/18151845/converting-glmlookat-matrix-to-quaternion-and-back
 void Transform::lookAt(glm::vec3 target)
 {
-	glm::vec3 newDirection = target - position;
-	std::cout << "Look at (pre-normal): " << vec3ToString(newDirection) << std::endl;
-	newDirection = glm::normalize(newDirection);
-	std::cout << "Look at (post-normal): " << vec3ToString(newDirection) << std::endl;
-	//create new rotation using world forward, up and the new direction
 	glm::mat4 rot = glm::lookAt(position, target, up);
 	Rotation(glm::conjugate(glm::toQuat(rot)));
-	//Rotation(glm::Rotation)
 }
 
 std::string Transform::toString()
@@ -109,7 +110,7 @@ std::string Transform::toString()
 	st.append(std::to_string(forward.z));
 	st.append(")");
 
-	st.append("\Right: (");
+	st.append("\nRight: (");
 	st.append(std::to_string(right.x));
 	st.append(", ");
 	st.append(std::to_string(right.y));

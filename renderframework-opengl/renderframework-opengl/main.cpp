@@ -20,14 +20,10 @@
 #include "StaticMesh.h"
 #include "PrimitiveShapes.h"
 #include "Line.h"
-
+#include "GameObject.h"
+#include "FPSDemo.h"
+#include "Input.h"
 ///globals
-
-typedef struct {
-	Transform transform;
-	StaticMesh mesh;
-	glm::mat4 transfromMatrix;
-} GameObject;
 
 //fps demo variables
 glm::vec3 pl_rot;
@@ -40,21 +36,14 @@ int SCREEN_WIDTH = 800;
 int SCREEN_HEIGHT = 600;
 int renderSwitch = 0;
 
-void updatePlayer(GameObject& pl_go)
+void setupPlayer(GameObject& pl_go, StaticMesh& pl_sm)
 {
-	pl_go.transfromMatrix = transformToMatrix(pl_go.transform);
-}
-
-void setupPlayer(GameObject& pl_go)
-{
-	PrimitiveShapes::CreateCube(pl_go.mesh);
+	PrimitiveShapes::CreateCube(pl_sm);
 	pl_go.transform.position = glm::vec3(-5, 1, -5);
 	pl_go.transform.scale = glm::vec3(3, 3, 3);
 
 	pl_movespeed = 5;
 	pl_rotationspeed = 30;
-
-	updatePlayer(pl_go);
 }
 
 void checkPlayerMovement(GameObject& pl_go, GLFWwindow* const window)
@@ -91,7 +80,6 @@ void checkPlayerMovement(GameObject& pl_go, GLFWwindow* const window)
 		pl_dir = glm::normalize(pl_dir);
 		glm::vec3 moveDelta = pl_dir * pl_movespeed;
 		pl_go.transform.position += moveDelta * Timer::DeltaTime();
-		updatePlayer(pl_go);
 
 		/*std::cout << "Delta: " << vec3ToString(moveDelta) << std::endl;
 		std::cout << "Position: " << vec3ToString(pl_go.transform.position) << std::endl;*/
@@ -134,7 +122,6 @@ void checkPlayerRotation(GameObject& pl_go, GLFWwindow* const window)
 	if (updateRotation)
 	{
 		pl_go.transform.rotate(pl_rot, pl_rotationspeed * Timer::DeltaTime());
-		updatePlayer(pl_go);
 	}
 }
 
@@ -144,20 +131,24 @@ void processPlayerInput(GameObject& pl_go, GLFWwindow* const window)
 	checkPlayerMovement(pl_go, window);
 }
 
-void drawPlayer(GameObject& pl_go, unsigned int transformLoc, Camera mainCam)
+void drawPlayer(GameObject& pl_go, StaticMesh& pl_sm, unsigned int& transformLoc, Camera& mainCam)
 {
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * pl_go.transfromMatrix));
-	pl_go.mesh.draw();
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * pl_go.transform.TransformMat4()));
+	pl_sm.draw();
 }
 
 void processInput(GLFWwindow* window)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE))
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
+	/*if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 	else if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
 		renderSwitch = 1;
 	else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-		renderSwitch = 0;
+		renderSwitch = 0;*/
 }
 
 void onWindowResizeCallback(GLFWwindow* window, int width, int height)
@@ -185,7 +176,8 @@ int main(char** argv, int argc)
 	}
 
 	instance->setWindowResizeEvent(onWindowResizeCallback);
-
+	Input::Initialise();
+	glfwSetKeyCallback(instance->getWindow(), Input::StoreKeyState);
 
 	Shader colShader("shader.vs", "shader.fs");
 	Shader textureShader("coltex-shader.vs", "coltex-shader.fs");
@@ -198,7 +190,8 @@ int main(char** argv, int argc)
 
 	//player setup
 	GameObject pl_go;
-	setupPlayer(pl_go);
+	StaticMesh pl_sm;
+	setupPlayer(pl_go, pl_sm);
 
 	//startup the timer
 	Timer::tick();
@@ -259,10 +252,14 @@ int main(char** argv, int argc)
 	int maxLines = 5;
 	int clearConsolePerFrame = maxLines;
 	
+	FPSDemo fpsDemo;
+	fpsDemo.initialise();
+
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing variables
 		Timer::tick();
+		glfwPollEvents();
 		//--clearConsolePerFrame;
 		//if (clearConsolePerFrame <= 0)
 		//{
@@ -276,54 +273,57 @@ int main(char** argv, int argc)
 		//printLine("deltaTime: " + std::to_string(Timer::DeltaTime()));
 		//check input
 		processInput(instance->getWindow());
-		processPlayerInput(pl_go, instance->getWindow());
+		/*processPlayerInput(pl_go, instance->getWindow());*/
 
 		//updatePlayer(pl_go);
 		//render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		fpsDemo.update(Timer::DeltaTime());
+
+		fpsDemo.updateGameObjects();
 		//bind
 		//colShader.use();
 		//textureShader.use();
-		transformShader.use();
+		//transformShader.use();
 
-		//if (renderSwitch == 0)
-		{
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * s1World));
-			containerTexture.use();
-			//draw
+		////if (renderSwitch == 0)
+		//{
+		//	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * s1World));
+		//	containerTexture.use();
+		//	//draw
 
-			stMesh.draw();
-		}
-		//else
-		{
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * s2World));
-			faceTexture.use();
+		//	stMesh.draw();
+		//}
+		////else
+		//{
+		//	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * s2World));
+		//	faceTexture.use();
 
-			triStMesh.draw();
-		}
+		//	triStMesh.draw();
+		//}
 
-		
-		cubeTran.position = pl_go.transform.position + (pl_go.transform.Forward() * 2.0f);
-		cubeTran.rotate(cubeRotAxis, cubeRotAngle);
-		cubeWorld = transformToMatrix(cubeTran);
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * cubeWorld));
-		containerTexture.use();
-		//draw
+		//
+		//cubeTran.position = pl_go.transform.position + (pl_go.transform.Forward() * 2.0f);
+		//cubeTran.rotate(cubeRotAxis, cubeRotAngle);
+		//cubeWorld = transformToMatrix(cubeTran);
+		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * cubeWorld));
+		//containerTexture.use();
+		////draw
 
-		cubeSt.draw();
+		//cubeSt.draw();
 
-		drawPlayer(pl_go, transformLoc, mainCam);
-		
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * glm::mat4(1)));
-		line_z.draw();
-		line_y.draw();
-		line_x.draw();
+		//drawPlayer(pl_go, pl_sm,transformLoc, mainCam);
+		//
+		//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(mainCam.ProjView() * glm::mat4(1)));
+		//line_z.draw();
+		//line_y.draw();
+		//line_x.draw();
 
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());
-		glfwPollEvents();
+		//Input::RecordKeys();
 	}
 
 	glfwTerminate();

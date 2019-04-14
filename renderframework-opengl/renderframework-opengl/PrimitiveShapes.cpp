@@ -84,14 +84,14 @@ namespace PrimitiveShapes
 		mesh.useTriangleList();
 		Vertex vertices[4];
 		//setup the positions
-		vertices[0].pos = glm::vec3(-0.5f, 0, 0.5f); //TL
+		vertices[0].pos = glm::vec3(-0.5f, 0, -0.5f); //TL
 		//vertices[0].colour = Colour::Blue();
 		vertices[0].uv = glm::vec2(0, 1);
-		vertices[1].pos = glm::vec3(-0.5f, 0, -0.5f); //BL
+		vertices[1].pos = glm::vec3(-0.5f, 0, 0.5f); //BL
 		vertices[1].uv = glm::vec2(0, 0);
-		vertices[2].pos = glm::vec3(0.5f, 0, 0.5f); //TR
+		vertices[2].pos = glm::vec3(0.5f, 0, -0.5f); //TR
 		vertices[2].uv = glm::vec2(1, 1);
-		vertices[3].pos = glm::vec3(0.5f, 0, -0.5f); //BR
+		vertices[3].pos = glm::vec3(0.5f, 0, 0.5f); //BR
 		vertices[3].uv = glm::vec2(1, 0);
 
 		//setup the indices

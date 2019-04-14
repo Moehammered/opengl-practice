@@ -15,6 +15,8 @@ public:
 
 	//getters - protect the values that rely on each other when changed
 	const glm::quat Rotation() const;
+	const glm::mat4 RotationMat4() const;
+	const glm::mat4 TransformMat4() const;
 	glm::vec3 Up();
 	glm::vec3 Forward();
 	glm::vec3 Right();
@@ -31,6 +33,7 @@ public:
 private:
 	glm::vec3 up, forward, right;
 	glm::quat rotation;
+	glm::mat4 rotationMat4;
 };
 
 #endif

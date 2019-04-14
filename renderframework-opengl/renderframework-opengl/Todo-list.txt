@@ -1,3 +1,37 @@
+begin entity component design
+	for entity architecture
+		http://www.gameprogrammingpatterns.com/flyweight.html
+		http://www.gameprogrammingpatterns.com/component.html
+		http://wiki.c2.com/?StrategyPattern
+
+	Made scene class, and for now inheriting it to make FPSDemo
+		Similar to the game class and how it works in Monogame
+
+	Need to move over the stuff from main into the FPSDemo and
+		use that to make small tests for now
+			--- think I'll need to refactor a lot of the base
+			stuff since shader and texture require heap allocation
+
+		Need to make an Input class
+			functions statically or via singleton too.
+			
+
+			Made but, its not elegant at all...
+				interesting find though.
+					when using local reference of an object from a pointer,
+					it seems to return a copy of the object. Then this object
+					will be destroyed after the function leaves scope.
+					But if I simply use Instance().functioncall() it doesnt
+					do so...
+					So I swapped out to returning the pointer for now,
+						->look into returning reference objects that won't
+						destroy?
+
+
+
+
+
+
 Transformations
 	Translation, rotation, scale
 
@@ -44,7 +78,7 @@ Next
 		-needs rotation ------------------
 			-rotation is inverted, mainly orientation vectors are
 				
-	begin entity component design
+	
 	create primitive shape types
 		-cube (done but UVs are screwed for top and bottom face)
 			should make individual points for the cube since each face has it's own UVs
