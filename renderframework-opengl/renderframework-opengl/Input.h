@@ -2,14 +2,18 @@
 #define INPUT__H_
 
 #include <GLFW\glfw3.h>
+#include <glm\glm.hpp>
 #include <vector>
 
 class Input
 {
 public:
 
+	static glm::vec2& const MousePosition();
+	static glm::vec2 MouseMovementDelta();
 	static void Initialise();
 	static void RecordKeys();
+	static void RecordMouseMovement();
 	static void StoreKeyState(GLFWwindow* window, int key, int scancode,
 		int action, int mods);
 
@@ -25,6 +29,7 @@ private:
 
 	std::vector<int> prevKeyState;
 	std::vector<int> currKeyState;
+	glm::vec2 mousePos, prevMousePos;
 
 	static Input* _instance;
 };

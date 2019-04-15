@@ -14,7 +14,8 @@ begin entity component design
 
 		Need to make an Input class
 			functions statically or via singleton too.
-			
+			added mouse movement into the Input class
+				needs normalised versions of its movements -1 to 1 values.
 
 			Made but, its not elegant at all...
 				interesting find though.

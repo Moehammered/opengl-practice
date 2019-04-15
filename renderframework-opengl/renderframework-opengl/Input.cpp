@@ -1,9 +1,20 @@
 #include "Input.h"
+#include "OpenGLLoader.h"
 #include <iostream>
 
 Input* Input::_instance = nullptr;
 //std::vector<int> Input::prevKeyState;
 //std::vector<int> Input::currKeyState;
+
+glm::vec2 & const Input::MousePosition()
+{
+	return Instance()->mousePos;
+}
+
+glm::vec2 Input::MouseMovementDelta()
+{
+	return Instance()->mousePos - Instance()->prevMousePos;
+}
 
 void Input::Initialise()
 {
@@ -21,6 +32,17 @@ void Input::RecordKeys()
 		in->prevKeyState[i] = in->currKeyState[i];
 	}
 	//in.prevKeyState.assign(in.currKeyState.begin(), in.currKeyState.end());
+}
+
+void Input::RecordMouseMovement()
+{
+	Input* in = Instance();
+	double x, y;
+	in->prevMousePos = in->mousePos;
+	glfwGetCursorPos(OpenGLLoader::Instance()->getWindow(), &x, &y);
+
+	in->mousePos.x = x;
+	in->mousePos.y = y;
 }
 
 void Input::StoreKeyState(GLFWwindow * window, int key, int scancode, int action, int mods)
@@ -73,6 +95,7 @@ Input::Input()
 Input::~Input()
 {
 	std::cout << "input destroy" << std::endl;
+	delete _instance;
 }
 
 Input * const Input::Instance()
