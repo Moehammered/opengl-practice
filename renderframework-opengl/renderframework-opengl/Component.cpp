@@ -2,9 +2,12 @@
 
 #include <limits>
 
+unsigned long Component::ID_COUNTER = ULONG_MAX;
+
 Component::Component()
 {
-	owner = INT_MAX;
+	id = --ID_COUNTER;
+	owner = nullptr;
 	enabled = true;
 }
 
@@ -17,9 +20,10 @@ void Component::initialise()
 
 void Component::update(float deltaTime)
 {
+	printf("gggggg\n");
 }
 
 bool Component::isAttached()
 {
-	return owner != INT_MAX;
+	return owner != nullptr;
 }

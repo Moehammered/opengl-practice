@@ -1,6 +1,8 @@
 #include "Input.h"
 #include "OpenGLLoader.h"
 #include <iostream>
+#include "HelperFunctions.h"
+#include "TransformHelperFunctions.h"
 
 Input* Input::_instance = nullptr;
 //std::vector<int> Input::prevKeyState;
@@ -11,9 +13,19 @@ glm::vec2 & const Input::MousePosition()
 	return Instance()->mousePos;
 }
 
-glm::vec2 Input::MouseMovementDelta()
+glm::vec2 Input::RawMouseMovementDelta()
 {
 	return Instance()->mousePos - Instance()->prevMousePos;
+}
+
+glm::vec2 Input::NormalisedMouseMovementDelta()
+{
+	glm::vec2 raw = Input::RawMouseMovementDelta();
+
+	raw.x /= (float)OpenGLLoader::Instance()->ScreenWidth();
+	raw.y /= (float)OpenGLLoader::Instance()->ScreenHeight();
+
+	return raw;
 }
 
 void Input::Initialise()

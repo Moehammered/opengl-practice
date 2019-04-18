@@ -2,14 +2,21 @@
 #include "PrimitiveShapes.h"
 #include <glad\glad.h>
 #include <glm\gtc\type_ptr.hpp>
+#include <glm\gtx\norm.hpp>
 #include "Input.h"
 #include <GLFW\glfw3.h>
 #include "Timer.h"
+
+#include "OpenGLLoader.h"
+#include "HelperFunctions.h"
+#include "TransformHelperFunctions.h"
+#include "FPSMovementComponent.h"
 
 //fps demo variables
 glm::vec3 pl_rot;
 float pl_movespeed;
 float pl_rotationspeed;
+float mouseSensitivity;
 glm::vec3 pl_dir;
 
 void checkPlayerMovement(Transform& pl_tr)
@@ -25,7 +32,7 @@ void checkPlayerMovement(Transform& pl_tr)
 	else if (Input::IsKeyHeld(GLFW_KEY_D))
 		pl_dir += pl_tr.Right();
 
-	if (glm::length(pl_dir) > 0.4f)
+	if (glm::length2(pl_dir) > 0.4f)
 	{
 		pl_dir = glm::normalize(pl_dir);
 		pl_tr.position += pl_dir * pl_movespeed * Timer::DeltaTime();
@@ -41,11 +48,13 @@ void checkPlayerRotation(Transform& pl_tr)
 	else if (Input::IsKeyHeld(GLFW_KEY_LEFT))
 		pl_rot.y = 1;*/
 
-	pl_rot.y = -Input::MouseMovementDelta().x * Timer::DeltaTime();
+	pl_rot.y = -Input::RawMouseMovementDelta().x;
 
-	if (glm::length(pl_rot) > 0.5f)
+	if (glm::length2(pl_rot) > 0.1f)
 	{
-		pl_tr.rotate(glm::normalize(pl_rot), pl_rotationspeed * Timer::DeltaTime());
+		printLine("l2: " + std::to_string(glm::length2(pl_rot)));
+		glm::vec3 finalAxis = glm::normalize(pl_rot);
+		pl_tr.rotate(finalAxis, mouseSensitivity * pl_rotationspeed * Timer::DeltaTime());
 	}
 }
 
@@ -105,11 +114,19 @@ void FPSDemo::initialise()
 
 	pl_movespeed = 10;
 	pl_rotationspeed = 180;
+	mouseSensitivity = 2;
+
+	FPSMovementComponent* comp = player.AddComponent<FPSMovementComponent>();
+	comp->movementSpeed = pl_movespeed;
+	comp->rotationSpeed = pl_rotationspeed;
+	comp->mouseSensitivity = mouseSensitivity;
+
+	addGameObject(player);
 }
 
 void FPSDemo::update(float deltaTime)
 {
-	checkInput(player.transform);
+	//checkInput(player.transform);
 
 	unsigned int transformLoc = glGetUniformLocation(transformShader->ID(), "transform");
 	

@@ -9,6 +9,8 @@ class OpenGLLoader
 public:
 	static OpenGLLoader* const Instance();
 
+	int ScreenWidth();
+	int ScreenHeight();
 	void setWindowSize(int x, int y);
 	void setWindowResizeEvent(GLFWframebuffersizefun callback);
 	bool initialiseOpenGL();

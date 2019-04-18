@@ -1,8 +1,35 @@
+stuff to look at later: http://www.stroustrup.com/bs_faq2.html#constraints
+
 begin entity component design
 	for entity architecture
 		http://www.gameprogrammingpatterns.com/flyweight.html
 		http://www.gameprogrammingpatterns.com/component.html
 		http://wiki.c2.com/?StrategyPattern
+
+	If i am to follow similar implementation schema to Unity, then:
+		Need some static helper/creation functions that perform the purpose
+		of setting up components or gameobjects
+
+		when gameobjects are created, they need to be able to be added
+		to an active scene immmediately.
+
+		drawing components need to be rendered last, 
+			after non-render components
+
+		need to block being able to use "new T()" for components, force
+		the AddComponent<T>() function to be the only way
+			(make Component constructor private, GameObject friend class?)
+
+	Component Assertion for AddComponent
+		links:
+		https://en.cppreference.com/w/cpp/language/dynamic_cast
+		https://en.cppreference.com/w/cpp/error/assert
+		https://en.cppreference.com/w/cpp/language/template_specialization
+		http://www.cplusplus.com/doc/oldtutorial/templates/
+
+		Continue testing how components are added and removed
+			So far, components are not destroyed unnecessarily
+			but needs more testing.
 
 	Made scene class, and for now inheriting it to make FPSDemo
 		Similar to the game class and how it works in Monogame
@@ -16,6 +43,8 @@ begin entity component design
 			functions statically or via singleton too.
 			added mouse movement into the Input class
 				needs normalised versions of its movements -1 to 1 values.
+				Added normalised values but it just ended up making it difficult to
+				move the mouse properly... well for now both are available now
 
 			Made but, its not elegant at all...
 				interesting find though.

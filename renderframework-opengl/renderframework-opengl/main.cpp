@@ -9,6 +9,7 @@
 #include "Timer.h"
 #include "FPSDemo.h"
 #include "Input.h"
+#include "TestComponent.h"
 
 ///globals
 //screen
@@ -51,6 +52,20 @@ int main(char** argv, int argc)
 	glEnable(GL_DEPTH_TEST);
 
 	
+	printLine("Is TestComponent derived from Component?");
+	std::cout << std::is_base_of<Component, TestComponent>::value << '\n';
+
+	GameObject testGO;
+	testGO.AddComponent<TestComponent>();
+	testGO.AddComponent<TestComponent>();
+	printLine("GO Component count: " + std::to_string(testGO.components.size()));
+	for (int i = 0; i < testGO.components.size(); ++i)
+	{
+		unsigned int compID = testGO.components[i]->id;
+		printLine("comp[" + std::to_string(i) + "] id: " + std::to_string(compID));
+	}
+	printLine("GO Component count: " + std::to_string(testGO.components.size()));
+
 	FPSDemo fpsDemo;
 	fpsDemo.initialise();
 	glfwSetInputMode(instance->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);

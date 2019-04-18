@@ -10,7 +10,8 @@ class Input
 public:
 
 	static glm::vec2& const MousePosition();
-	static glm::vec2 MouseMovementDelta();
+	static glm::vec2 RawMouseMovementDelta();
+	static glm::vec2 NormalisedMouseMovementDelta();
 	static void Initialise();
 	static void RecordKeys();
 	static void RecordMouseMovement();

@@ -12,6 +12,16 @@ OpenGLLoader* const OpenGLLoader::Instance()
 	return _instance;
 }
 
+int OpenGLLoader::ScreenWidth()
+{
+	return screenWidth;
+}
+
+int OpenGLLoader::ScreenHeight()
+{
+	return screenHeight;
+}
+
 void OpenGLLoader::setWindowSize(int x, int y)
 {
 	screenHeight = y;
@@ -28,9 +38,9 @@ bool OpenGLLoader::initialiseOpenGL()
 {
 	//initialise glfw
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glMajorVersion);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glMinorVersion);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, glProfile);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Instance()->glMajorVersion);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Instance()->glMinorVersion);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, Instance()->glProfile);
 
 	//create the window
 	windowHandle = glfwCreateWindow(screenWidth, screenHeight,

@@ -92,6 +92,7 @@ void Scene::updateComponents(GameObject& obj)
 {
 	for (unsigned int i = 0; i < obj.components.size(); ++i)
 	{
-		obj.components[i].update(Timer::DeltaTime());
+		if(obj.components[i]->enabled)
+			obj.components[i]->update(Timer::DeltaTime());
 	}
 }
