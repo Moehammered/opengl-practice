@@ -14,7 +14,7 @@ public:
 	~FPSDemo();
 
 	void initialise();
-	void update(float deltaTime);
+	void update(float deltaTime) override;
 	void cleanup();
 	
 protected:
@@ -22,9 +22,8 @@ protected:
 	Shader* transformShader;
 	Texture* containerTexture;
 
-	GameObject player;
-	Transform groundTransform;
-	StaticMesh playerMesh, ground;
+	GameObject* player;
+	GameObject* ground;
 	Camera mainCam;
 };
 

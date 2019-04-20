@@ -19,6 +19,7 @@ public:
 	void update(float deltaTime);
 
 private:
+
 	glm::vec3 movementDirection, rotationAxis;
 
 	void checkPlayerMovement(Transform& tr, float deltaTime);

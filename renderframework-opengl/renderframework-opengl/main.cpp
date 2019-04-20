@@ -55,20 +55,22 @@ int main(char** argv, int argc)
 	printLine("Is TestComponent derived from Component?");
 	std::cout << std::is_base_of<Component, TestComponent>::value << '\n';
 
-	GameObject testGO;
-	testGO.AddComponent<TestComponent>();
-	testGO.AddComponent<TestComponent>();
-	printLine("GO Component count: " + std::to_string(testGO.components.size()));
-	for (int i = 0; i < testGO.components.size(); ++i)
+	GameObject* testGO = GameObject::Instantiate();
+	testGO->AddComponent<TestComponent>();
+	testGO->AddComponent<TestComponent>();
+	printLine("GO Component count: " + std::to_string(testGO->components.size()));
+	for (int i = 0; i < testGO->components.size(); ++i)
 	{
-		unsigned int compID = testGO.components[i]->id;
+		unsigned int compID = testGO->components[i]->id;
 		printLine("comp[" + std::to_string(i) + "] id: " + std::to_string(compID));
 	}
-	printLine("GO Component count: " + std::to_string(testGO.components.size()));
+	printLine("GO Component count: " + std::to_string(testGO->components.size()));
 
 	FPSDemo fpsDemo;
 	fpsDemo.initialise();
 	glfwSetInputMode(instance->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	printLine("MainCam?: " + std::to_string(Camera::MainCamera != nullptr));
 
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
@@ -87,7 +89,8 @@ int main(char** argv, int argc)
 
 		fpsDemo.update(Timer::DeltaTime());
 
-		fpsDemo.updateGameObjects();
+		
+		//fpsDemo.updateGameObjects();
 		
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());

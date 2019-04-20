@@ -6,17 +6,27 @@ begin entity component design
 		http://www.gameprogrammingpatterns.com/component.html
 		http://wiki.c2.com/?StrategyPattern
 
-	If i am to follow similar implementation schema to Unity, then:
-		Need some static helper/creation functions that perform the purpose
-		of setting up components or gameobjects
+		http://www.gameprogrammingpatterns.com/data-locality.html
+			look into this for optimising how components are updated
+			and how active gameobjects vs delete requested gameobjects are sorted
+			out in memory.
+				(2 sided frame memory allocation pattern?)
 
-		when gameobjects are created, they need to be able to be added
+	If i am to follow similar implementation schema to Unity, then:
+		(go/done) - Need some static helper/creation functions that perform the purpose
+		of setting up components or gameobjects
+			For now, active gameobjects are a large list within the GameObject
+			class, but need to be moved into somewhere else later
+
+		(worked around) - when gameobjects are created, they need to be able to be added
 		to an active scene immmediately.
 
-		drawing components need to be rendered last, 
+		(to-do) - drawing components need to be rendered last, 
 			after non-render components
+				started on making a renderer component
+				needs to have logic to auto-add itself to a render queue.
 
-		need to block being able to use "new T()" for components, force
+		(done) - need to block being able to use "new T()" for components, force
 		the AddComponent<T>() function to be the only way
 			(make Component constructor private, GameObject friend class?)
 

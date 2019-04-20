@@ -11,6 +11,8 @@ public:
 	Camera();
 	~Camera();
 
+	static Camera* MainCamera;
+
 	Transform transform;
 
 	float FieldOfView() const;

@@ -11,6 +11,7 @@
 #include "HelperFunctions.h"
 #include "TransformHelperFunctions.h"
 #include "FPSMovementComponent.h"
+#include "RenderComponent.h"
 
 //fps demo variables
 glm::vec3 pl_rot;
@@ -18,6 +19,8 @@ float pl_movespeed;
 float pl_rotationspeed;
 float mouseSensitivity;
 glm::vec3 pl_dir;
+RenderComponent* playerRenderer;
+RenderComponent* groundRenderer;
 
 void checkPlayerMovement(Transform& pl_tr)
 {
@@ -71,12 +74,6 @@ void setupCamera(Camera& cam)
 	cam.updateView();
 }
 
-void setupMeshes(StaticMesh& playerMesh, StaticMesh& ground)
-{
-	PrimitiveShapes::CreateCube(playerMesh);
-	PrimitiveShapes::CreateXZPlane(ground);
-}
-
 FPSDemo::FPSDemo()
 {
 }
@@ -98,16 +95,19 @@ void FPSDemo::cleanup()
 void FPSDemo::initialise()
 {
 	setupCamera(mainCam);
-	setupMeshes(playerMesh, ground);
+
 	xAxis = Line(glm::vec3(0, 0, 0), glm::vec3(50, 0, 0), Colour::Red());
 	yAxis = Line(glm::vec3(0, 0, 0), glm::vec3(0, 50, 0), Colour::Green());
 	zAxis = Line(glm::vec3(0, 0, 0), glm::vec3(0, 0, -50), Colour::Blue());
 
-	player.transform.position = glm::vec3(0,2,0);
-	player.transform.scale = glm::vec3(3, 3, 3);
+	player = GameObject::Instantiate();
+	player->transform.position = glm::vec3(0,2,0);
+	player->transform.scale = glm::vec3(3, 3, 3);
 
-	groundTransform.position = glm::vec3(0);
-	groundTransform.scale = glm::vec3(10, 1, 10);
+	ground = GameObject::Instantiate();
+	ground->name = "ground";
+	ground->transform.position = glm::vec3(0);
+	ground->transform.scale = glm::vec3(10, 1, 10);
 
 	transformShader = new Shader("transform-coltex-shader.vs", "coltex-shader.fs");
 	containerTexture = new Texture("container.jpg");
@@ -116,27 +116,44 @@ void FPSDemo::initialise()
 	pl_rotationspeed = 180;
 	mouseSensitivity = 2;
 
-	FPSMovementComponent* comp = player.AddComponent<FPSMovementComponent>();
+	FPSMovementComponent* comp = player->AddComponent<FPSMovementComponent>();
 	comp->movementSpeed = pl_movespeed;
 	comp->rotationSpeed = pl_rotationspeed;
 	comp->mouseSensitivity = mouseSensitivity;
 
-	addGameObject(player);
+	playerRenderer = player->AddComponent<RenderComponent>();
+	playerRenderer->shaderMaterial = transformShader;
+	playerRenderer->shaderTexture = containerTexture;
+	PrimitiveShapes::CreateCube(playerRenderer->mesh);
+	playerRenderer->initialise();
+
+	groundRenderer = ground->AddComponent<RenderComponent>();
+	printLine("Ground owner: " + groundRenderer->owner->name);
+	groundRenderer->shaderMaterial = transformShader;
+	groundRenderer->shaderTexture = containerTexture;
+	PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);
+	groundRenderer->initialise();
+
+	
 }
 
 void FPSDemo::update(float deltaTime)
 {
 	//checkInput(player.transform);
-
-	unsigned int transformLoc = glGetUniformLocation(transformShader->ID(), "transform");
+	Scene::update(deltaTime);
+	/*unsigned int transformLoc = glGetUniformLocation(transformShader->ID(), "transform");
 	
 	transformShader->use();
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, 
 		glm::value_ptr(mainCam.ProjView() * groundTransform.TransformMat4()));
 	containerTexture->use();
-	ground.draw();
+	ground.draw();*/
 
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
-		glm::value_ptr(mainCam.ProjView() * player.transform.TransformMat4()));
-	playerMesh.draw();
+	//transformShader->use();
+
+	groundRenderer->draw();
+	playerRenderer->draw();
+	/*glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+		glm::value_ptr(mainCam.ProjView() * player->transform.TransformMat4()));
+	playerMesh.draw();*/
 }

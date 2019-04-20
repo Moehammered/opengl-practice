@@ -4,6 +4,8 @@
 #include "TransformHelperFunctions.h"
 #include <iostream>
 
+Camera* Camera::MainCamera = nullptr;
+
 Camera::Camera()
 {
 	fov = glm::radians(45.0f);
@@ -13,6 +15,9 @@ Camera::Camera()
 
 	view = glm::lookAt(transform.position, transform.position + transform.Forward(), transform.Up());
 	projection = glm::perspective(fov, aspect, nearPlane, farPlane);
+
+	if (MainCamera == nullptr)
+		MainCamera = this;
 }
 
 Camera::~Camera()

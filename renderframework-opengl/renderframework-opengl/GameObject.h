@@ -12,9 +12,10 @@ class Component; //resolve cyclical dependency (forward decleration)
 class GameObject
 {
 public:
-	GameObject();
-	~GameObject();
 
+	friend class Scene;
+	static GameObject* const Instantiate();
+	static void Destroy(GameObject* go);
 	unsigned int id;
 	std::string name;
 	std::vector<Component*> components;
@@ -24,7 +25,14 @@ public:
 	C* const AddComponent();
 
 private:
+	GameObject();
+	~GameObject();
+
 	static unsigned int ID_COUNTER;
+	static std::vector<GameObject*> activeObjects;
+
+	static void UpdateGameObjects();
+	static void UpdateComponents(std::vector<Component*>& comps);
 };
 
 

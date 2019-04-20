@@ -143,6 +143,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="OpenGLLoader.cpp" />
     <ClCompile Include="PrimitiveShapes.cpp" />
+    <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Square.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="OpenGLLoader.h" />
     <ClInclude Include="PrimitiveShapes.h" />
+    <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Square.h" />

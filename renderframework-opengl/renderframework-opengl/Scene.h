@@ -10,23 +10,19 @@ public:
 	Scene();
 	~Scene();
 
-	void addGameObject(GameObject& obj);
-	void removeGameObject(GameObject& obj);
-	void removeGameObject(int const &id);
-	GameObject& findGameObjectByID(int const &id);
-	GameObject& findGameObjectByName(std::string const &name);
+	GameObject* const findGameObjectByID(int const &id);
+	GameObject* const findGameObjectByName(std::string const &name);
 
 	virtual void initialise();
 	virtual void start();
 	virtual void update(float deltaTime);
 	virtual void cleanup();
 
-	void updateGameObjects();
+	//void updateGameObjects();
 
 protected:
-	std::vector<GameObject> objects;
-
-	void updateComponents(GameObject& obj);
+	friend void GameObject::UpdateGameObjects();
+	//void updateComponents(GameObject& obj);
 };
 
 #endif

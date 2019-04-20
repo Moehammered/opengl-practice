@@ -9,9 +9,7 @@ class GameObject; //resolves cyclical dependency (forward decleration)
 class Component
 {
 public:
-	Component();
-	~Component();
-	
+	friend class GameObject;
 	unsigned long id;
 	GameObject* owner;
 	bool enabled;
@@ -25,6 +23,8 @@ private:
 	static unsigned long ID_COUNTER;
 
 protected:
+	Component();
+	~Component();
 
 };
 

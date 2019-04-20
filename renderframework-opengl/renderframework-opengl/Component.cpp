@@ -20,7 +20,6 @@ void Component::initialise()
 
 void Component::update(float deltaTime)
 {
-	printf("gggggg\n");
 }
 
 bool Component::isAttached()
