@@ -141,6 +141,15 @@ void FPSDemo::update(float deltaTime)
 {
 	//checkInput(player.transform);
 	Scene::update(deltaTime);
+
+	if (Input::IsKeyPressed(GLFW_KEY_1))
+	{
+		playerRenderer->enabled = true;
+	}
+	else if (Input::IsKeyPressed(GLFW_KEY_2))
+	{
+		playerRenderer->enabled = false;
+	}
 	/*unsigned int transformLoc = glGetUniformLocation(transformShader->ID(), "transform");
 	
 	transformShader->use();
@@ -151,8 +160,8 @@ void FPSDemo::update(float deltaTime)
 
 	//transformShader->use();
 
-	groundRenderer->draw();
-	playerRenderer->draw();
+	/*groundRenderer->draw();
+	playerRenderer->draw();*/
 	/*glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
 		glm::value_ptr(mainCam.ProjView() * player->transform.TransformMat4()));
 	playerMesh.draw();*/

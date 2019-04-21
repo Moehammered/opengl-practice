@@ -10,18 +10,19 @@
 #include "FPSDemo.h"
 #include "Input.h"
 #include "TestComponent.h"
+#include "RenderQueue.h"
 
 ///globals
 //screen
-int SCREEN_WIDTH = 800;
-int SCREEN_HEIGHT = 600;
-
-void onWindowResizeCallback(GLFWwindow* window, int width, int height)
-{
-	SCREEN_WIDTH = width;
-	SCREEN_HEIGHT = height;
-	glViewport(0, 0, width, height);
-}
+//int SCREEN_WIDTH = 800;
+//int SCREEN_HEIGHT = 600;
+//
+//void onWindowResizeCallback(GLFWwindow* window, int width, int height)
+//{
+//	SCREEN_WIDTH = width;
+//	SCREEN_HEIGHT = height;
+//	glViewport(0, 0, width, height);
+//}
 
 int main(char** argv, int argc)
 {
@@ -40,31 +41,16 @@ int main(char** argv, int argc)
 		return -1;
 	}
 
-	instance->setWindowResizeEvent(onWindowResizeCallback);
 	Input::Initialise();
 	glfwSetKeyCallback(instance->getWindow(), Input::StoreKeyState);
-
 
 	//startup the timer
 	Timer::tick();
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-
 	
-	printLine("Is TestComponent derived from Component?");
-	std::cout << std::is_base_of<Component, TestComponent>::value << '\n';
-
-	GameObject* testGO = GameObject::Instantiate();
-	testGO->AddComponent<TestComponent>();
-	testGO->AddComponent<TestComponent>();
-	printLine("GO Component count: " + std::to_string(testGO->components.size()));
-	for (int i = 0; i < testGO->components.size(); ++i)
-	{
-		unsigned int compID = testGO->components[i]->id;
-		printLine("comp[" + std::to_string(i) + "] id: " + std::to_string(compID));
-	}
-	printLine("GO Component count: " + std::to_string(testGO->components.size()));
+	RenderQueue* const gameRenderer = RenderQueue::Instance();
 
 	FPSDemo fpsDemo;
 	fpsDemo.initialise();
@@ -89,7 +75,7 @@ int main(char** argv, int argc)
 
 		fpsDemo.update(Timer::DeltaTime());
 
-		
+		gameRenderer->processRenderQueue();
 		//fpsDemo.updateGameObjects();
 		
 		//check for events and swap render buffers

@@ -21,14 +21,16 @@ begin entity component design
 		(worked around) - when gameobjects are created, they need to be able to be added
 		to an active scene immmediately.
 
-		(to-do) - drawing components need to be rendered last, 
+		(done) - drawing components need to be rendered last, 
 			after non-render components
 				started on making a renderer component
 				needs to have logic to auto-add itself to a render queue.
 
-		(done) - need to block being able to use "new T()" for components, force
+		(done /!\) - need to block being able to use "new T()" for components, force
 		the AddComponent<T>() function to be the only way
 			(make Component constructor private, GameObject friend class?)
+
+			PROBLEM: needs to be changed into factory method.
 
 	Component Assertion for AddComponent
 		links:

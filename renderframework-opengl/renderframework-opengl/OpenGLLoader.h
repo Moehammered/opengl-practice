@@ -27,6 +27,8 @@ private:
 	GLFWwindow* windowHandle;
 	//singleton instance
 	static OpenGLLoader* _instance;
+
+	static void onWindowResizeCallback(GLFWwindow* window, int width, int height);
 };
 
 #endif

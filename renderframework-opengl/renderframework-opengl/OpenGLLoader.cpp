@@ -61,6 +61,8 @@ bool OpenGLLoader::initialiseOpenGL()
 	//set the viewport
 	glViewport(0, 0, screenWidth, screenHeight);
 
+	setWindowResizeEvent(OpenGLLoader::onWindowResizeCallback);
+
 	return true;
 }
 
@@ -90,4 +92,11 @@ OpenGLLoader::~OpenGLLoader()
 	if (_instance)
 		delete _instance;
 	_instance = nullptr;
+}
+
+void OpenGLLoader::onWindowResizeCallback(GLFWwindow * window, int width, int height)
+{
+	_instance->screenHeight = height;
+	_instance->screenWidth = width;
+	glViewport(0, 0, width, height);
 }

@@ -1,5 +1,6 @@
 #include "RenderComponent.h"
 
+#include "RenderQueue.h"
 #include "HelperFunctions.h"
 #include "Camera.h"
 #include <glad\glad.h>
@@ -31,6 +32,8 @@ void RenderComponent::draw()
 
 RenderComponent::RenderComponent()
 {
+	//add reference to the renderqueue for this component
+	RenderQueue::Instance()->AddToQueue(this);
 }
 
 RenderComponent::~RenderComponent()
