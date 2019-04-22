@@ -14,6 +14,7 @@ public:
 	~RenderComponent();
 
 	StaticMesh mesh;
+	bool enabled;
 	
 	///these 2 need to be merged into "materials"
 	//i.e.	TextureMaterial = shader + texture class,

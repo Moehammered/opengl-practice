@@ -1,11 +1,11 @@
 #ifndef FPSMOVEMENTCOMPONENT__H_
 #define FPSMOVEMENTCOMPONENT__H_
 
-#include "Component.h"
+#include "UpdateableComponent.h"
 #include <glm\glm.hpp>
 
 class FPSMovementComponent :
-	public Component
+	public UpdateableComponent
 {
 public:
 	FPSMovementComponent();
@@ -16,7 +16,7 @@ public:
 	float mouseSensitivity;
 
 	void initialise();
-	void update(float deltaTime);
+	void update() override;
 
 private:
 

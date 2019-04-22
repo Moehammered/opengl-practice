@@ -15,13 +15,12 @@ public:
 
 	virtual void initialise();
 	virtual void start();
-	virtual void update(float deltaTime);
+	virtual void update();
 	virtual void cleanup();
 
 	//void updateGameObjects();
 
 protected:
-	friend void GameObject::UpdateGameObjects();
 	//void updateComponents(GameObject& obj);
 };
 

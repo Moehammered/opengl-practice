@@ -12,10 +12,8 @@ public:
 	friend class GameObject;
 	unsigned long id;
 	GameObject* owner;
-	bool enabled;
 
 	virtual void initialise();
-	virtual void update(float deltaTime);
 
 	bool isAttached();
 

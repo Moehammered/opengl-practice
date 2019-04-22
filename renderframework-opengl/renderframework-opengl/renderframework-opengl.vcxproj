@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentUpdateQueue.cpp" />
     <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="FPSDemo.cpp" />
     <ClCompile Include="FPSMovementComponent.cpp" />
@@ -154,10 +155,12 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformHelperFunctions.cpp" />
+    <ClCompile Include="UpdateableComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentUpdateQueue.h" />
     <ClInclude Include="FileLoader.h" />
     <ClInclude Include="FPSDemo.h" />
     <ClInclude Include="FPSMovementComponent.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformHelperFunctions.h" />
+    <ClInclude Include="UpdateableComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="coltex-shader.fs" />

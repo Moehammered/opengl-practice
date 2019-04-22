@@ -5,8 +5,6 @@
 
 Line::Line()
 {
-	std::cout << "Line constructor activated" << std::endl;
-
 	start = glm::vec3(0, 0, 0);
 	end = glm::vec3(0, 0, -1);
 	colour = Colour::Red();

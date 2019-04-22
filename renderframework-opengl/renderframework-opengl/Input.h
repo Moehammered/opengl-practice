@@ -1,5 +1,6 @@
 #ifndef INPUT__H_
 #define INPUT__H_
+#define INPUT_VERBOSEOUTPUT 0
 
 #include <GLFW\glfw3.h>
 #include <glm\glm.hpp>
@@ -8,7 +9,6 @@
 class Input
 {
 public:
-
 	static glm::vec2& const MousePosition();
 	static glm::vec2 RawMouseMovementDelta();
 	static glm::vec2 NormalisedMouseMovementDelta();

@@ -45,9 +45,8 @@ void Scene::start()
 	Timer::tick();
 }
 
-void Scene::update(float deltaTime)
+void Scene::update()
 {
-	GameObject::UpdateGameObjects();
 }
 
 void Scene::cleanup()

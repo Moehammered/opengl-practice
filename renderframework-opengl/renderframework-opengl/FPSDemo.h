@@ -14,7 +14,7 @@ public:
 	~FPSDemo();
 
 	void initialise();
-	void update(float deltaTime) override;
+	void update() override;
 	void cleanup();
 	
 protected:

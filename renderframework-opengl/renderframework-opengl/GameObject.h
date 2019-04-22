@@ -30,9 +30,6 @@ private:
 
 	static unsigned int ID_COUNTER;
 	static std::vector<GameObject*> activeObjects;
-
-	static void UpdateGameObjects();
-	static void UpdateComponents(std::vector<Component*>& comps);
 };
 
 
@@ -43,7 +40,6 @@ inline C* const GameObject::AddComponent()
 	C* comp = new C();
 	Component* casted = (Component*)comp;
 	casted->owner = this;
-	casted->enabled = true;
 	components.push_back(comp);
 	return comp;
 }

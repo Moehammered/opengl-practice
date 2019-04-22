@@ -4,7 +4,6 @@
 
 StaticMesh::StaticMesh()
 {
-	std::cout << "SM constructor activated" << std::endl;
 	vertexArrayID = vertexBufferID = elementBufferID = 0;
 	initialiseVAO();
 }

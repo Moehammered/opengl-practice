@@ -31,7 +31,9 @@ glm::vec2 Input::NormalisedMouseMovementDelta()
 void Input::Initialise()
 {
 	//Input in = Instance();
-	std::cout << "init input" << std::endl;
+	#if INPUT_VERBOSEOUTPUT == 1
+		std::cout << "init input" << std::endl;
+	#endif
 	Instance()->prevKeyState.resize(GLFW_KEY_LAST + 1);
 	Instance()->currKeyState.resize(GLFW_KEY_LAST + 1);
 }
@@ -61,12 +63,14 @@ void Input::StoreKeyState(GLFWwindow * window, int key, int scancode, int action
 {
 	Input* in = Instance();
 	//in.prevKeyState = in.currKeyState;
-	std::cout << std::endl;
 	in->prevKeyState[key] = in->currKeyState[key];
 	in->currKeyState[key] = action;
-	std::cout << "Key(" << key << ") state(" << action << ")" << std::endl;
-	std::cout << "CurrKey(" << key << ") Currstate(" << in->currKeyState[key] << ")" << std::endl;
-	std::cout << "PrevKey(" << key << ") Prevstate(" << in->prevKeyState[key] << ")" << std::endl;
+	#if INPUT_VERBOSEOUTPUT == 1
+		std::cout << std::endl;
+		std::cout << "Key(" << key << ") state(" << action << ")" << std::endl;
+		std::cout << "CurrKey(" << key << ") Currstate(" << in->currKeyState[key] << ")" << std::endl;
+		std::cout << "PrevKey(" << key << ") Prevstate(" << in->prevKeyState[key] << ")" << std::endl;
+	#endif
 }
 
 bool Input::IsKeyHeld(int key)
@@ -106,7 +110,9 @@ Input::Input()
 
 Input::~Input()
 {
-	std::cout << "input destroy" << std::endl;
+	#if INPUT_VERBOSEOUTPUT == 1
+		std::cout << "input destroy" << std::endl;
+	#endif
 	delete _instance;
 }
 

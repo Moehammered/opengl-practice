@@ -11,7 +11,7 @@ void RenderComponent::initialise()
 {
 	if (shaderMaterial)
 		shaderTransformLoc = glGetUniformLocation(shaderMaterial->ID(), "transform");
-	printLine("Shader Loc: " + std::to_string(shaderTransformLoc));
+	//printLine("Shader Loc: " + std::to_string(shaderTransformLoc));
 }
 
 void RenderComponent::draw()
@@ -33,6 +33,7 @@ void RenderComponent::draw()
 RenderComponent::RenderComponent()
 {
 	//add reference to the renderqueue for this component
+	enabled = true;
 	RenderQueue::Instance()->AddToQueue(this);
 }
 

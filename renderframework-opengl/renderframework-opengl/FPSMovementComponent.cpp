@@ -1,6 +1,7 @@
 #include "FPSMovementComponent.h"
 
 #include "Input.h"
+#include "Timer.h"
 #include <glm\gtx\norm.hpp>
 #include <GLFW\glfw3.h>
 #include "HelperFunctions.h"
@@ -8,12 +9,12 @@
 FPSMovementComponent::FPSMovementComponent()
 {
 	movementSpeed = rotationSpeed = mouseSensitivity = 1;
-	printLine("FPSMOVECOMP");
+	//printLine("FPSMOVECOMP");
 }
 
 FPSMovementComponent::~FPSMovementComponent()
 {
-	printLine("Destroy FPSMOVECOMP");
+	//printLine("Destroy FPSMOVECOMP");
 }
 
 void FPSMovementComponent::initialise()
@@ -21,10 +22,10 @@ void FPSMovementComponent::initialise()
 
 }
 
-void FPSMovementComponent::update(float deltaTime)
+void FPSMovementComponent::update()
 {
-	checkPlayerMovement(owner->transform, deltaTime);
-	checkPlayerRotation(owner->transform, deltaTime);
+	checkPlayerMovement(owner->transform, Timer::DeltaTime());
+	checkPlayerRotation(owner->transform, Timer::DeltaTime());
 }
 
 void FPSMovementComponent::checkPlayerMovement(Transform & tr, float deltaTime)

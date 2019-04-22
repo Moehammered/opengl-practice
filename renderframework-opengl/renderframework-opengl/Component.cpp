@@ -8,17 +8,12 @@ Component::Component()
 {
 	id = --ID_COUNTER;
 	owner = nullptr;
-	enabled = true;
 }
 
 Component::~Component()
 {}
 
 void Component::initialise()
-{
-}
-
-void Component::update(float deltaTime)
 {
 }
 

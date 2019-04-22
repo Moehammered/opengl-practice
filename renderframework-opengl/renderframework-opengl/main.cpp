@@ -11,24 +11,12 @@
 #include "Input.h"
 #include "TestComponent.h"
 #include "RenderQueue.h"
-
-///globals
-//screen
-//int SCREEN_WIDTH = 800;
-//int SCREEN_HEIGHT = 600;
-//
-//void onWindowResizeCallback(GLFWwindow* window, int width, int height)
-//{
-//	SCREEN_WIDTH = width;
-//	SCREEN_HEIGHT = height;
-//	glViewport(0, 0, width, height);
-//}
+#include "ComponentUpdateQueue.h"
 
 int main(char** argv, int argc)
 {
 	stbi_set_flip_vertically_on_load(true);
 	OpenGLLoader* instance;
-
 
 	instance = OpenGLLoader::Instance();
 	instance->setWindowSize(800, 600);
@@ -51,12 +39,12 @@ int main(char** argv, int argc)
 	glEnable(GL_DEPTH_TEST);
 	
 	RenderQueue* const gameRenderer = RenderQueue::Instance();
-
+	ComponentUpdateQueue* const componentUpdater = ComponentUpdateQueue::Instance();
 	FPSDemo fpsDemo;
 	fpsDemo.initialise();
 	glfwSetInputMode(instance->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	printLine("MainCam?: " + std::to_string(Camera::MainCamera != nullptr));
+	//printLine("MainCam?: " + std::to_string(Camera::MainCamera != nullptr));
 
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
@@ -73,10 +61,11 @@ int main(char** argv, int argc)
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		fpsDemo.update(Timer::DeltaTime());
+		fpsDemo.update();
+
+		componentUpdater->updateComponents();
 
 		gameRenderer->processRenderQueue();
-		//fpsDemo.updateGameObjects();
 		
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());

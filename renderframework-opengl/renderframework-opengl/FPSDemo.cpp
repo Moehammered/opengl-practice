@@ -1,15 +1,10 @@
 #include "FPSDemo.h"
 #include "PrimitiveShapes.h"
 #include <glad\glad.h>
-#include <glm\gtc\type_ptr.hpp>
-#include <glm\gtx\norm.hpp>
 #include "Input.h"
 #include <GLFW\glfw3.h>
 #include "Timer.h"
 
-#include "OpenGLLoader.h"
-#include "HelperFunctions.h"
-#include "TransformHelperFunctions.h"
 #include "FPSMovementComponent.h"
 #include "RenderComponent.h"
 
@@ -21,51 +16,6 @@ float mouseSensitivity;
 glm::vec3 pl_dir;
 RenderComponent* playerRenderer;
 RenderComponent* groundRenderer;
-
-void checkPlayerMovement(Transform& pl_tr)
-{
-	pl_dir = glm::vec3(0);
-
-	if (Input::IsKeyHeld(GLFW_KEY_W))
-		pl_dir += pl_tr.Forward();
-	else if (Input::IsKeyHeld(GLFW_KEY_S))
-		pl_dir -= pl_tr.Forward();
-	if (Input::IsKeyHeld(GLFW_KEY_A))
-		pl_dir -= pl_tr.Right();
-	else if (Input::IsKeyHeld(GLFW_KEY_D))
-		pl_dir += pl_tr.Right();
-
-	if (glm::length2(pl_dir) > 0.4f)
-	{
-		pl_dir = glm::normalize(pl_dir);
-		pl_tr.position += pl_dir * pl_movespeed * Timer::DeltaTime();
-	}
-}
-
-void checkPlayerRotation(Transform& pl_tr)
-{
-	pl_rot = glm::vec3(0);
-
-	/*if (Input::IsKeyHeld(GLFW_KEY_RIGHT))
-		pl_rot.y = -1;
-	else if (Input::IsKeyHeld(GLFW_KEY_LEFT))
-		pl_rot.y = 1;*/
-
-	pl_rot.y = -Input::RawMouseMovementDelta().x;
-
-	if (glm::length2(pl_rot) > 0.1f)
-	{
-		printLine("l2: " + std::to_string(glm::length2(pl_rot)));
-		glm::vec3 finalAxis = glm::normalize(pl_rot);
-		pl_tr.rotate(finalAxis, mouseSensitivity * pl_rotationspeed * Timer::DeltaTime());
-	}
-}
-
-void checkInput(Transform& pl_tr)
-{
-	checkPlayerMovement(pl_tr);
-	checkPlayerRotation(pl_tr);
-}
 
 void setupCamera(Camera& cam)
 {
@@ -128,19 +78,16 @@ void FPSDemo::initialise()
 	playerRenderer->initialise();
 
 	groundRenderer = ground->AddComponent<RenderComponent>();
-	printLine("Ground owner: " + groundRenderer->owner->name);
+	//printLine("Ground owner: " + groundRenderer->owner->name);
 	groundRenderer->shaderMaterial = transformShader;
 	groundRenderer->shaderTexture = containerTexture;
 	PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);
 	groundRenderer->initialise();
-
-	
 }
 
-void FPSDemo::update(float deltaTime)
+void FPSDemo::update()
 {
-	//checkInput(player.transform);
-	Scene::update(deltaTime);
+	Scene::update();
 
 	if (Input::IsKeyPressed(GLFW_KEY_1))
 	{
@@ -150,19 +97,4 @@ void FPSDemo::update(float deltaTime)
 	{
 		playerRenderer->enabled = false;
 	}
-	/*unsigned int transformLoc = glGetUniformLocation(transformShader->ID(), "transform");
-	
-	transformShader->use();
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, 
-		glm::value_ptr(mainCam.ProjView() * groundTransform.TransformMat4()));
-	containerTexture->use();
-	ground.draw();*/
-
-	//transformShader->use();
-
-	/*groundRenderer->draw();
-	playerRenderer->draw();*/
-	/*glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
-		glm::value_ptr(mainCam.ProjView() * player->transform.TransformMat4()));
-	playerMesh.draw();*/
 }

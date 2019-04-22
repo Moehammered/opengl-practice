@@ -37,21 +37,22 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+	//cleanup components?
 }
 
-void GameObject::UpdateGameObjects()
-{
-	for (int i = 0; i < activeObjects.size(); ++i)
-	{
-		UpdateComponents(activeObjects[i]->components);
-	}
-}
-
-void GameObject::UpdateComponents(std::vector<Component*>& comps)
-{
-	for (int i = 0; i < comps.size(); ++i)
-	{
-		if (comps[i]->enabled)
-			comps[i]->update(Timer::DeltaTime());
-	}
-}
+//void GameObject::UpdateGameObjects()
+//{
+//	for (int i = 0; i < activeObjects.size(); ++i)
+//	{
+//		UpdateComponents(activeObjects[i]->components);
+//	}
+//}
+//
+//void GameObject::UpdateComponents(std::vector<Component*>& comps)
+//{
+//	for (int i = 0; i < comps.size(); ++i)
+//	{
+//		if (comps[i]->enabled)
+//			comps[i]->update(Timer::DeltaTime());
+//	}
+//}
