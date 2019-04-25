@@ -15,8 +15,11 @@ void ComponentUpdateQueue::updateComponents()
 {
 	for (int i = 0; i < components.size(); ++i)
 	{
-		if (components[i]->enabled)
-			components[i]->update();
+		if (components[i])
+		{
+			if (components[i] != nullptr & components[i]->isActive())
+				components[i]->update();
+		}
 	}
 }
 
@@ -35,4 +38,28 @@ ComponentUpdateQueue::~ComponentUpdateQueue()
 void ComponentUpdateQueue::AddToQueue(UpdateableComponent * comp)
 {
 	components.push_back(comp);
+}
+
+void ComponentUpdateQueue::removeFromQueue(UpdateableComponent * comp)
+{
+	for (int i = 0; i < components.size(); ++i)
+	{
+		if (components[i]->id == comp->id)
+		{
+			components.erase(components.begin() + i);
+			break;
+		}
+	}
+}
+
+void ComponentUpdateQueue::removeFromQueue(unsigned int id)
+{
+	for (int i = 0; i < components.size(); ++i)
+	{
+		if (components[i]->id == id)
+		{
+			components.erase(components.begin() + i);
+			break;
+		}
+	}
 }

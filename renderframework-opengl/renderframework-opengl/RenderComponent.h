@@ -26,6 +26,7 @@ public:
 	Texture* shaderTexture;
 
 	void initialise() override;
+	bool isActive() override;
 	void draw();
 
 private:

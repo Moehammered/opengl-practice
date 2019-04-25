@@ -17,7 +17,8 @@ private:
 	~RenderQueue();
 
 	void AddToQueue(RenderComponent* rendComp);
-
+	void removeFromQueue(RenderComponent* rendComp);
+	void removeFromQueue(unsigned int id);
 	std::vector<RenderComponent*> renderers;
 
 	static RenderQueue* _instance;

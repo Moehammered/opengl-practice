@@ -16,6 +16,7 @@ float mouseSensitivity;
 glm::vec3 pl_dir;
 RenderComponent* playerRenderer;
 RenderComponent* groundRenderer;
+RenderComponent* bigBoxRenderer;
 
 void setupCamera(Camera& cam)
 {
@@ -59,6 +60,12 @@ void FPSDemo::initialise()
 	ground->transform.position = glm::vec3(0);
 	ground->transform.scale = glm::vec3(10, 1, 10);
 
+	bigBox = GameObject::Instantiate();
+	bigBox->name = "prop box";
+	bigBox->transform.position = glm::vec3(4, 2, -4);
+	bigBox->transform.rotate(glm::vec3(0, 1, 0), 45);
+	bigBox->transform.scale = glm::vec3(4,4,4);
+
 	transformShader = new Shader("transform-coltex-shader.vs", "coltex-shader.fs");
 	containerTexture = new Texture("container.jpg");
 
@@ -83,6 +90,12 @@ void FPSDemo::initialise()
 	groundRenderer->shaderTexture = containerTexture;
 	PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);
 	groundRenderer->initialise();
+
+	bigBoxRenderer = bigBox->AddComponent<RenderComponent>();
+	bigBoxRenderer->shaderMaterial = transformShader;
+	bigBoxRenderer->shaderTexture = containerTexture;
+	PrimitiveShapes::CreateCube(bigBoxRenderer->mesh);
+	bigBoxRenderer->initialise();
 }
 
 void FPSDemo::update()
@@ -96,5 +109,25 @@ void FPSDemo::update()
 	else if (Input::IsKeyPressed(GLFW_KEY_2))
 	{
 		playerRenderer->enabled = false;
+	}
+	else if (Input::IsKeyPressed(GLFW_KEY_3))
+	{
+		player->SetActive(!player->IsActive());
+	}
+	else if (Input::IsKeyPressed(GLFW_KEY_0))
+	{
+		GameObject::Destroy(player);
+	}
+	else if (Input::IsKeyPressed(GLFW_KEY_4))
+	{
+		bigBox->SetActive(!bigBox->IsActive());
+	}
+	else if (Input::IsKeyPressed(GLFW_KEY_5))
+	{
+		bigBoxRenderer->enabled = !bigBoxRenderer->enabled;
+	}
+	else if (Input::IsKeyPressed(GLFW_KEY_9))
+	{
+		GameObject::Destroy(bigBox);
 	}
 }

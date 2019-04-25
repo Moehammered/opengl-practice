@@ -70,6 +70,8 @@ int main(char** argv, int argc)
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());
 		Input::RecordKeys();
+
+		GameObject::ProcessPostUpdate();
 	}
 
 	glfwTerminate();

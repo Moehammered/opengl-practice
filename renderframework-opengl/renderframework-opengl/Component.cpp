@@ -11,7 +11,9 @@ Component::Component()
 }
 
 Component::~Component()
-{}
+{
+	printf("Base component destructor called\n");
+}
 
 void Component::initialise()
 {
@@ -20,4 +22,9 @@ void Component::initialise()
 bool Component::isAttached()
 {
 	return owner != nullptr;
+}
+
+bool Component::isActive()
+{
+	return owner->IsActive();
 }

@@ -16,13 +16,14 @@ public:
 	virtual void initialise();
 
 	bool isAttached();
+	virtual bool isActive();
 
 private:
 	static unsigned long ID_COUNTER;
 
 protected:
 	Component();
-	~Component();
+	virtual ~Component();
 
 };
 

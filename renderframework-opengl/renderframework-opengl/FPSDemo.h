@@ -23,6 +23,7 @@ protected:
 	Texture* containerTexture;
 
 	GameObject* player;
+	GameObject* bigBox;
 	GameObject* ground;
 	Camera mainCam;
 };

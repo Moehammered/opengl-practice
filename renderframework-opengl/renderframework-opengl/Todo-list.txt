@@ -12,11 +12,54 @@ begin entity component design
 			out in memory.
 				(2 sided frame memory allocation pattern?)
 
+				
+		PROBLEM: needs to be changed into factory method.
+			Factory method
+				Need to abstract all instantiation and destruction...
+					component, gameobject should inherit from an Object.
+					This object has basic allocation functions for memory,
+					list location, should be abstract too.
+					When GameObject factory instantiates it, it makes it
+					as a GameObject and returns its reference.
+					When Component factory instantiates it, it makes it as
+					a Component, returns its reference, and allocates its owner.
+					When "tickable" component is added, same as component, but 
+					it is added into a queue for updates.
+					When "renderable" component is added, same as component but
+					it is added into a queue for rendering.
+					Destroying involves invoking cleanup from the factory.
+					It removes the reference from main storage and destroys
+					the object, then the object upon destroying itself will
+					remove itself from the respective queue it joined.
+				Problems:
+					+Need to ensure 1 copy of the object only!
+					+If its destroyed, all references will be nullified, or
+					the references must point to a null object.
+					+memory fragmentation needs to be managed when objects are destroyed
+						+possible solution: pre-allocate a set block of memory and use
+							it as an array, with the object's id being its array access
+							location. 
+								(
+									different classes will end up being different sizes
+									so can override the [] operator to auto-resolve the
+									size differences, or take it into account when
+									de-referencing the memory location.
+									Delete might need to be overridin too.
+								)
+								
+
 	If i am to follow similar implementation schema to Unity, then:
 		(go/done) - Need some static helper/creation functions that perform the purpose
 		of setting up components or gameobjects
 			For now, active gameobjects are a large list within the GameObject
 			class, but need to be moved into somewhere else later
+
+		(done) - Destroy objects and have them cleaned up
+			gameobjects can be queued up to be destroyed
+			their components are destroyed.
+			base Component class didn't have a virtual destructor,
+			so when destroy was called on a "Component" pointer it 
+			didn't invoke the destructors for the derived classes
 
 		(worked around) - when gameobjects are created, they need to be able to be added
 		to an active scene immmediately.
@@ -29,8 +72,6 @@ begin entity component design
 		(done /!\) - need to block being able to use "new T()" for components, force
 		the AddComponent<T>() function to be the only way
 			(make Component constructor private, GameObject friend class?)
-
-			PROBLEM: needs to be changed into factory method.
 
 	Component Assertion for AddComponent
 		links:

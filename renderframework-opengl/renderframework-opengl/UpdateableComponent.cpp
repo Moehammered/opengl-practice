@@ -12,8 +12,15 @@ UpdateableComponent::UpdateableComponent()
 
 UpdateableComponent::~UpdateableComponent()
 {
+	printf("Removing from queue....\n");
+	ComponentUpdateQueue::Instance()->removeFromQueue(this);
 }
 
 void UpdateableComponent::update()
 {
+}
+
+bool UpdateableComponent::isActive()
+{
+	return enabled & owner->IsActive();
 }

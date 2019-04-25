@@ -12,6 +12,7 @@ public:
 	bool enabled;
 
 	virtual void update();
+	bool isActive() override;
 };
 
 #endif

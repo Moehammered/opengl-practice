@@ -16,6 +16,7 @@ public:
 	friend class Scene;
 	static GameObject* const Instantiate();
 	static void Destroy(GameObject* go);
+	static void ProcessPostUpdate();
 	unsigned int id;
 	std::string name;
 	std::vector<Component*> components;
@@ -23,13 +24,29 @@ public:
 
 	template <class C>
 	C* const AddComponent();
+	void SetActive(bool state);
+	bool IsActive();
 
 private:
 	GameObject();
 	~GameObject();
 
+	bool enabled;
+
 	static unsigned int ID_COUNTER;
 	static std::vector<GameObject*> activeObjects;
+	static std::vector<GameObject*> inactiveObjects;
+	static std::vector<GameObject*> destroyObjectQueue;
+	static std::vector<Component*> destroyComponentQueue;
+	static std::vector<unsigned int> enableObjectQueue;
+	static std::vector<unsigned int> disableObjectQueue;
+
+	static void addToDestroyQueue(GameObject* go);
+	static void addToEnableQueue(unsigned int ID);
+	static void addToDisableQueue(unsigned int ID);
+	static void processActiveState();
+	static void processDestroyRequests();
+	static void destroyComponents(GameObject* go);
 };
 
 

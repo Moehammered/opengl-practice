@@ -14,6 +14,11 @@ void RenderComponent::initialise()
 	//printLine("Shader Loc: " + std::to_string(shaderTransformLoc));
 }
 
+bool RenderComponent::isActive()
+{
+	return enabled & owner->IsActive();
+}
+
 void RenderComponent::draw()
 {
 	if (shaderMaterial)
@@ -41,4 +46,6 @@ RenderComponent::~RenderComponent()
 {
 	shaderMaterial = nullptr;
 	shaderTexture = nullptr;
+	printf("RenderComponent destructor called\n");
+	RenderQueue::Instance()->removeFromQueue(id);
 }

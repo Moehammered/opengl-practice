@@ -8,6 +8,7 @@ class ComponentUpdateQueue
 {
 public:
 	friend class UpdateableComponent;
+	friend class FPSMovementComponent;
 	static ComponentUpdateQueue* const Instance();
 
 	void updateComponents();
@@ -17,6 +18,8 @@ private:
 	~ComponentUpdateQueue();
 
 	void AddToQueue(UpdateableComponent* comp);
+	void removeFromQueue(UpdateableComponent* comp);
+	void removeFromQueue(unsigned int id);
 	std::vector<UpdateableComponent*> components;
 
 	static ComponentUpdateQueue* _instance;

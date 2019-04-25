@@ -5,6 +5,7 @@
 #include <glm\gtx\norm.hpp>
 #include <GLFW\glfw3.h>
 #include "HelperFunctions.h"
+#include "ComponentUpdateQueue.h"
 
 FPSMovementComponent::FPSMovementComponent()
 {
@@ -14,7 +15,9 @@ FPSMovementComponent::FPSMovementComponent()
 
 FPSMovementComponent::~FPSMovementComponent()
 {
-	//printLine("Destroy FPSMOVECOMP");
+	printLine("Destroy FPSMOVECOMP");
+	printf("Removing from queue....\n");
+	ComponentUpdateQueue::Instance()->removeFromQueue(id);
 }
 
 void FPSMovementComponent::initialise()
