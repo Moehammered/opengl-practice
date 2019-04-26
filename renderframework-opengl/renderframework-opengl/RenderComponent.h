@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "StaticMesh.h"
+#include "Material.h"
 #include "Shader.h"
 #include "Texture.h"
 
@@ -16,14 +17,7 @@ public:
 	StaticMesh mesh;
 	bool enabled;
 	
-	///these 2 need to be merged into "materials"
-	//i.e.	TextureMaterial = shader + texture class,
-	//		ColourMaterial = shader only
-	//		MultiTextureMaterial = shader + textures, etc
-
-
-	Shader* shaderMaterial;
-	Texture* shaderTexture;
+	Material* material;
 
 	void initialise() override;
 	bool isActive() override;
@@ -31,7 +25,6 @@ public:
 
 private:
 
-	unsigned int shaderTransformLoc;
 };
 
 #endif

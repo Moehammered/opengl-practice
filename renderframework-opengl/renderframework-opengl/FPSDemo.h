@@ -19,8 +19,6 @@ public:
 	
 protected:
 	Line xAxis, yAxis, zAxis;
-	Shader* transformShader;
-	Texture* containerTexture;
 
 	GameObject* player;
 	GameObject* bigBox;

@@ -9,9 +9,7 @@
 
 void RenderComponent::initialise()
 {
-	if (shaderMaterial)
-		shaderTransformLoc = glGetUniformLocation(shaderMaterial->ID(), "transform");
-	//printLine("Shader Loc: " + std::to_string(shaderTransformLoc));
+	material = new Material();
 }
 
 bool RenderComponent::isActive()
@@ -21,15 +19,13 @@ bool RenderComponent::isActive()
 
 void RenderComponent::draw()
 {
-	if (shaderMaterial)
+	if (material)
 	{
 		if (Camera::MainCamera)
 		{
-			shaderMaterial->use();
-			glUniformMatrix4fv(shaderTransformLoc, 1, GL_FALSE,
-				glm::value_ptr(Camera::MainCamera->ProjView() * owner->transform.TransformMat4()));
-			if (shaderTexture)
-				shaderTexture->use();
+			material->use();
+			material->setTransformProperty("transform", 
+				Camera::MainCamera->ProjView() * owner->transform.TransformMat4());
 			mesh.draw();
 		}
 	}
@@ -44,8 +40,7 @@ RenderComponent::RenderComponent()
 
 RenderComponent::~RenderComponent()
 {
-	shaderMaterial = nullptr;
-	shaderTexture = nullptr;
+	delete material;
 	printf("RenderComponent destructor called\n");
 	RenderQueue::Instance()->removeFromQueue(id);
 }

@@ -99,6 +99,9 @@
     <ClCompile Include="ComponentUpdateQueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h">
@@ -182,6 +185,9 @@
     <ClInclude Include="ComponentUpdateQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.vs">
@@ -205,6 +211,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="container.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="brick.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

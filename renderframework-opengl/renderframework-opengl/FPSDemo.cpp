@@ -32,15 +32,13 @@ FPSDemo::FPSDemo()
 
 FPSDemo::~FPSDemo()
 {
+	GameObject::Destroy(player);
+	GameObject::Destroy(ground);
+	GameObject::Destroy(bigBox);
 }
 
 void FPSDemo::cleanup()
 {
-	delete transformShader;
-	delete containerTexture;
-
-	transformShader = nullptr;
-	containerTexture = nullptr;
 }
 
 void FPSDemo::initialise()
@@ -66,9 +64,6 @@ void FPSDemo::initialise()
 	bigBox->transform.rotate(glm::vec3(0, 1, 0), 45);
 	bigBox->transform.scale = glm::vec3(4,4,4);
 
-	transformShader = new Shader("transform-coltex-shader.vs", "coltex-shader.fs");
-	containerTexture = new Texture("container.jpg");
-
 	pl_movespeed = 10;
 	pl_rotationspeed = 180;
 	mouseSensitivity = 2;
@@ -79,23 +74,19 @@ void FPSDemo::initialise()
 	comp->mouseSensitivity = mouseSensitivity;
 
 	playerRenderer = player->AddComponent<RenderComponent>();
-	playerRenderer->shaderMaterial = transformShader;
-	playerRenderer->shaderTexture = containerTexture;
 	PrimitiveShapes::CreateCube(playerRenderer->mesh);
 	playerRenderer->initialise();
+	playerRenderer->material->setTexture(new Texture("awesomeface.png"));
 
 	groundRenderer = ground->AddComponent<RenderComponent>();
-	//printLine("Ground owner: " + groundRenderer->owner->name);
-	groundRenderer->shaderMaterial = transformShader;
-	groundRenderer->shaderTexture = containerTexture;
 	PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);
 	groundRenderer->initialise();
+	groundRenderer->material->setTexture(new Texture("brick.jpg"));
 
 	bigBoxRenderer = bigBox->AddComponent<RenderComponent>();
-	bigBoxRenderer->shaderMaterial = transformShader;
-	bigBoxRenderer->shaderTexture = containerTexture;
 	PrimitiveShapes::CreateCube(bigBoxRenderer->mesh);
 	bigBoxRenderer->initialise();
+	bigBoxRenderer->material->setTexture(new Texture("container.jpg"));
 }
 
 void FPSDemo::update()
