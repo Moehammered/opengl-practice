@@ -12,6 +12,11 @@ begin entity component design
 			out in memory.
 				(2 sided frame memory allocation pattern?)
 
+		Started Object class
+			Need to make GameObject and Component inherit from
+			this class.
+			Then rewrite the instantiate functions for GameObject
+			and component's addcomponent functionality.
 				
 		PROBLEM: needs to be changed into factory method.
 			Factory method

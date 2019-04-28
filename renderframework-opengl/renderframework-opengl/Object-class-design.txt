@@ -1,0 +1,16 @@
+
+Object class
+	
+	ID
+	init
+	virtual destructor/constructor?
+	cleanup
+	instantiate function
+	override copy constructor?(pass pointer to existing)
+		unique pointer, smart pointer, or shared pointer
+
+ObjectAllocator/Manager class
+	object list (special pointer class preferred)
+	ID_counter
+	allocate object/store ref
+	deallocate object/destroy references
