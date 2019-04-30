@@ -17,6 +17,18 @@ begin entity component design
 			this class.
 			Then rewrite the instantiate functions for GameObject
 			and component's addcomponent functionality.
+
+			Component and GameObject inherit from Object now.
+			There is an ObjectAllocator class that handles their main
+			pointers for destruction.
+			Learned that a pointer can be referred in a function.
+			Now the Destroy and Instantiate functions mimic the functioning
+			of Unity's and C#'s. 
+			However it's starting to become convoluted,
+			so maybe re-designing it so the 'new' keyword can be used would
+			pose better for readability. Or atleast allow the 'delete' keyword
+			to be used?
+			I should look into shared_ptr's functionality and attempt using it.
 				
 		PROBLEM: needs to be changed into factory method.
 			Factory method

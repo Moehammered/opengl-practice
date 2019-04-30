@@ -11,6 +11,33 @@ ObjectAllocator * const ObjectAllocator::Instance()
 	return _instance;
 }
 
+void ObjectAllocator::addToDestroyQueue(Object * obj)
+{
+	destroyQueue.push_back(obj);
+}
+
+void ObjectAllocator::processDestroyQueue()
+{
+	for (int i = 0; i < destroyQueue.size(); ++i)
+	{
+		if (destroyQueue[i] != nullptr)
+		{
+			for (int k = 0; k < instanceList.size(); ++k)
+			{
+				if (instanceList[k]->id == destroyQueue[i]->id)
+				{
+					instanceList.erase(instanceList.begin() + k);
+					delete destroyQueue[i];
+					destroyQueue[i] = nullptr;
+					break;
+				}
+			}
+		}
+	}
+
+	destroyQueue.clear();
+}
+
 ObjectAllocator::ObjectAllocator()
 {
 	ID_COUNTER = 0;

@@ -2,15 +2,16 @@
 #define COMPONENT__H_
 
 class GameObject; //resolves cyclical dependency (forward decleration)
+class Object;
 
 #include "GameObject.h"
 
 
-class Component
+class Component : public Object
 {
 public:
 	friend class GameObject;
-	unsigned long id;
+	friend class Object;
 	GameObject* owner;
 
 	virtual void initialise();

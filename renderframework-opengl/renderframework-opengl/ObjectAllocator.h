@@ -12,6 +12,9 @@ public:
 	friend class Object;
 	static ObjectAllocator* const Instance();
 
+	void addToDestroyQueue(Object* obj);
+	void processDestroyQueue();
+
 private:
 	ObjectAllocator();
 	~ObjectAllocator();
@@ -20,6 +23,7 @@ private:
 	unsigned long GetID();
 	void storeInstance(Object* inst);
 	std::vector<Object*> instanceList;
+	std::vector<Object*> destroyQueue;
 	static ObjectAllocator* _instance;
 };
 

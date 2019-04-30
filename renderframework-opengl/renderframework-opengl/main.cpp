@@ -12,11 +12,26 @@
 #include "TestComponent.h"
 #include "RenderQueue.h"
 #include "ComponentUpdateQueue.h"
+#include "ObjectAllocator.h"
+
+void testClearPointer(int*& value)
+{
+	value = nullptr;
+}
 
 int main(char** argv, int argc)
 {
+	int* test = new int;
+	test[0] = 5;
+
+	printLine("test value: " + std::to_string(test[0]));
+	printf("test addrs: 0x%p\n", (void*)test);
+	testClearPointer(test);
+	printf("test addrs: 0x%p\n", (void*)test);
+	delete test;
 	stbi_set_flip_vertically_on_load(true);
 	OpenGLLoader* instance;
+	ObjectAllocator* allocator;
 
 	instance = OpenGLLoader::Instance();
 	instance->setWindowSize(800, 600);
@@ -38,6 +53,7 @@ int main(char** argv, int argc)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	
+	allocator = ObjectAllocator::Instance();
 	RenderQueue* const gameRenderer = RenderQueue::Instance();
 	ComponentUpdateQueue* const componentUpdater = ComponentUpdateQueue::Instance();
 	FPSDemo fpsDemo;
@@ -72,6 +88,7 @@ int main(char** argv, int argc)
 		Input::RecordKeys();
 
 		GameObject::ProcessPostUpdate();
+		allocator->processDestroyQueue();
 	}
 
 	glfwTerminate();

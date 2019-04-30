@@ -1,27 +1,38 @@
 #include "GameObject.h"
 #include "Timer.h"
-
-unsigned int GameObject::ID_COUNTER = 0;
+#include "ObjectAllocator.h"
 
 std::vector<GameObject*> GameObject::activeObjects;
 std::vector<GameObject*> GameObject::inactiveObjects;
-std::vector<GameObject*> GameObject::destroyObjectQueue;
 std::vector<unsigned int> GameObject::enableObjectQueue;
 std::vector<unsigned int> GameObject::disableObjectQueue;
-std::vector<Component*> GameObject::destroyComponentQueue;
 
 GameObject* const GameObject::Instantiate()
 {
-	GameObject* go = new GameObject();
+	GameObject* go = &Object::Instantiate<GameObject>();
 	activeObjects.push_back(go);
 
 	return go;
 }
 
-void GameObject::Destroy(GameObject * go)
+void GameObject::Destroy(GameObject*& go)
 {
-	addToDestroyQueue(go);
-	destroyComponents(go);
+	if (go != nullptr)
+	{
+		ObjectAllocator::Instance()->addToDestroyQueue(go);
+		for (int i = 0; i < go->components.size(); ++i)
+		{
+			ObjectAllocator::Instance()->addToDestroyQueue(go->components[i]);
+		}
+		//remove it from the activity lists?
+		go = nullptr;
+	}
+	/*if (go)
+	{
+		addToDestroyQueue(go);
+		destroyComponents(go);
+		go = nullptr;
+	}*/
 	/*for (int i = 0; i < activeObjects.size(); ++i)
 	{
 		if (activeObjects[i]->id == go->id)
@@ -38,7 +49,6 @@ void GameObject::Destroy(GameObject * go)
 void GameObject::ProcessPostUpdate()
 {
 	processActiveState();
-	processDestroyRequests();
 }
 
 void GameObject::SetActive(bool state)
@@ -57,7 +67,6 @@ bool GameObject::IsActive()
 
 GameObject::GameObject()
 {
-	id = ++ID_COUNTER;
 	name = "go_" + std::to_string(id);
 	components.reserve(2);
 	enabled = true;
@@ -66,11 +75,7 @@ GameObject::GameObject()
 GameObject::~GameObject()
 {
 	//cleanup components?
-}
-
-void GameObject::addToDestroyQueue(GameObject * go)
-{
-	destroyObjectQueue.push_back(go);
+	printf("\nGameobject destroyed");
 }
 
 void GameObject::addToEnableQueue(unsigned int ID)
@@ -115,55 +120,4 @@ void GameObject::processActiveState()
 
 	enableObjectQueue.clear();
 	disableObjectQueue.clear();
-}
-
-void GameObject::processDestroyRequests()
-{
-	for (int i = 0; i < destroyObjectQueue.size(); ++i)
-	{
-		GameObject* currGO = destroyObjectQueue[i];
-		if (currGO->IsActive())
-		{
-			for (int k = 0; k < activeObjects.size(); ++k)
-			{
-				if (activeObjects[k]->id == currGO->id)
-				{
-					activeObjects.erase(activeObjects.begin() + k);
-					delete currGO;
-					currGO = nullptr;
-					break;
-				}
-			}
-		}
-		else
-		{
-			for (int k = 0; k < inactiveObjects.size(); ++k)
-			{
-				if (inactiveObjects[k]->id == currGO->id)
-				{
-					inactiveObjects.erase(inactiveObjects.begin() + k);
-					delete currGO;
-					currGO = nullptr;
-					break;
-				}
-			}
-		}
-	}
-
-	destroyObjectQueue.clear();
-
-	for (int i = 0; i < destroyComponentQueue.size(); ++i)
-	{
-		delete destroyComponentQueue[i];
-	}
-
-	destroyComponentQueue.clear();
-}
-
-void GameObject::destroyComponents(GameObject * go)
-{
-	for (int i = 0; i < go->components.size(); ++i)
-		destroyComponentQueue.push_back(go->components[i]);
-
-	go->components.clear();
 }

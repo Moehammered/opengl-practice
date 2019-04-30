@@ -93,32 +93,35 @@ void FPSDemo::update()
 {
 	Scene::update();
 
-	if (Input::IsKeyPressed(GLFW_KEY_1))
+	
+	if (Input::IsKeyPressed(GLFW_KEY_2))
 	{
-		playerRenderer->enabled = true;
-	}
-	else if (Input::IsKeyPressed(GLFW_KEY_2))
-	{
-		playerRenderer->enabled = false;
+		if(playerRenderer)
+		playerRenderer->enabled = !playerRenderer->enabled;
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_3))
 	{
+		if(player)
 		player->SetActive(!player->IsActive());
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_0))
 	{
 		GameObject::Destroy(player);
+		//player = nullptr;
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_4))
 	{
+		if(bigBox)
 		bigBox->SetActive(!bigBox->IsActive());
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_5))
 	{
+		if(bigBoxRenderer)
 		bigBoxRenderer->enabled = !bigBoxRenderer->enabled;
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_9))
 	{
 		GameObject::Destroy(bigBox);
+		bigBox = nullptr;
 	}
 }

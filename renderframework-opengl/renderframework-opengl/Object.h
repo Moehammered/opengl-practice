@@ -2,18 +2,24 @@
 #define OBJECT__H_
 
 class ObjectAllocator;
+class GameObject;
+class RenderQueue;
+class ComponentUpdateQueue;
 
 #include "ObjectAllocator.h"
+#include <assert.h>
 
 class Object
 {
 public:
 	friend class ObjectAllocator;
+	friend class RenderQueue;
+	friend class ComponentUpdateQueue;
 	virtual void initialise();
 	virtual void cleanup();
 
 	template <class O>
-	O* const Instantiate();
+	static O& const Instantiate();
 
 protected:
 	unsigned long id;
@@ -22,7 +28,7 @@ protected:
 };
 
 template<class O>
-inline O * const Object::Instantiate()
+inline O & const Object::Instantiate()
 {
 	assert((std::is_base_of<Object, O>::value));
 	O* obj = new O();
@@ -31,7 +37,7 @@ inline O * const Object::Instantiate()
 	obj->initialise();
 	ObjectAllocator::Instance()->storeInstance(casted);
 
-	return obj;
+	return *obj;
 }
 
 
