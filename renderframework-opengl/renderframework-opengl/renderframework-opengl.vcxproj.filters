@@ -200,6 +200,9 @@
     <ClInclude Include="ObjectAllocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SharedPointerTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.vs">

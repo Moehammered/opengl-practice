@@ -10,8 +10,8 @@ public:
 	Scene();
 	~Scene();
 
-	GameObject* const findGameObjectByID(int const &id);
-	GameObject* const findGameObjectByName(std::string const &name);
+	GameObject& const findGameObjectByID(int const &id);
+	GameObject& const findGameObjectByName(std::string const &name);
 
 	virtual void initialise();
 	virtual void start();

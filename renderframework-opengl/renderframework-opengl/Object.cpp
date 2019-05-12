@@ -2,12 +2,12 @@
 
 void Object::initialise()
 {
-	printf("/nI'm initialising myself/n");
+	printf("\nI'm initialising myself\n");
 }
 
 void Object::cleanup()
 {
-	printf("/nI'm cleaning myself up!/n");
+	printf("\nI'm cleaning myself up!\n");
 }
 
 Object::Object()

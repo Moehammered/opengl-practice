@@ -20,9 +20,9 @@ public:
 protected:
 	Line xAxis, yAxis, zAxis;
 
-	GameObject* player;
-	GameObject* bigBox;
-	GameObject* ground;
+	GameObject player;
+	GameObject bigBox;
+	GameObject ground;
 	Camera mainCam;
 };
 

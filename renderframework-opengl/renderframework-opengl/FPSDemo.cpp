@@ -101,8 +101,14 @@ void FPSDemo::update()
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_3))
 	{
-		if(player)
+		if(player != nullptr)
 		player->SetActive(!player->IsActive());
+	}
+	else if (Input::IsKeyPressed(GLFW_KEY_C)) //test key for object copies
+	{
+		GameObject playerCopy = player;
+		if(player != nullptr)
+			player.printReferenceInfo();
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_0))
 	{
@@ -111,7 +117,7 @@ void FPSDemo::update()
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_4))
 	{
-		if(bigBox)
+		if(bigBox != nullptr)
 		bigBox->SetActive(!bigBox->IsActive());
 	}
 	else if (Input::IsKeyPressed(GLFW_KEY_5))
@@ -122,6 +128,5 @@ void FPSDemo::update()
 	else if (Input::IsKeyPressed(GLFW_KEY_9))
 	{
 		GameObject::Destroy(bigBox);
-		bigBox = nullptr;
 	}
 }

@@ -11,7 +11,7 @@ Scene::~Scene()
 	cleanup();
 }
 
-GameObject* const Scene::findGameObjectByID(int const & id)
+GameObject& const Scene::findGameObjectByID(int const & id)
 {
 	//find by id, return it
 	unsigned int i = 0;
@@ -20,10 +20,10 @@ GameObject* const Scene::findGameObjectByID(int const & id)
 		if (GameObject::activeObjects[i]->id == id)
 			break;
 	}
-	return GameObject::activeObjects[i];
+	return GameObject::activeObjects[i][0];
 }
 
-GameObject* const Scene::findGameObjectByName(std::string const & name)
+GameObject& const Scene::findGameObjectByName(std::string const & name)
 {
 	//find by name, return it
 	unsigned int i = 0;
@@ -32,7 +32,7 @@ GameObject* const Scene::findGameObjectByName(std::string const & name)
 		if (GameObject::activeObjects[i]->name == name)
 			break;
 	}
-	return GameObject::activeObjects[i];
+	return GameObject::activeObjects[i][0];
 }
 
 void Scene::initialise()

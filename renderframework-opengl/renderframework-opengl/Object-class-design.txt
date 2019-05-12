@@ -11,6 +11,8 @@ Object class
 
 ObjectAllocator/Manager class
 	object list (special pointer class preferred)
+		Should have a list of shared pointers, weak pointers, or unique_ptrs...
+			need to test weak pointers
 	ID_counter
 	allocate object/store ref
 	deallocate object/destroy references

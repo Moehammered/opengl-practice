@@ -14,21 +14,8 @@
 #include "ComponentUpdateQueue.h"
 #include "ObjectAllocator.h"
 
-void testClearPointer(int*& value)
-{
-	value = nullptr;
-}
-
 int main(char** argv, int argc)
 {
-	int* test = new int;
-	test[0] = 5;
-
-	printLine("test value: " + std::to_string(test[0]));
-	printf("test addrs: 0x%p\n", (void*)test);
-	testClearPointer(test);
-	printf("test addrs: 0x%p\n", (void*)test);
-	delete test;
 	stbi_set_flip_vertically_on_load(true);
 	OpenGLLoader* instance;
 	ObjectAllocator* allocator;

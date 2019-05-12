@@ -13,26 +13,48 @@ class Component; //resolve cyclical dependency (forward decleration)
 class GameObject : public Object
 {
 public:
-
 	friend class Scene;
 	friend class Object;
-	static GameObject* const Instantiate();
-	static void Destroy(GameObject*& go);
+
+	static GameObject& Instantiate();
+	static void Destroy(GameObject& go);
 	static void ProcessPostUpdate();
+
+	GameObject(GameObject& org);
+
 	std::string name;
 	std::vector<Component*> components;
 	Transform transform;
+
+	std::string toString();
 
 	template <class C>
 	C* const AddComponent();
 	void SetActive(bool state);
 	bool IsActive();
 
-protected:
+	void printReferenceInfo(); //debug helper function
+
+	///operator overloads
+	GameObject& operator *();
+	GameObject* operator ->();
+	void operator =(GameObject& org);
+	bool operator ==(const GameObject* ptr);
+	bool operator ==(const GameObject& ptr);
+	bool operator !=(const GameObject* ptr);
+	bool operator !=(const GameObject& ptr);
+
 	GameObject();
 	~GameObject();
+protected:
 
 	bool enabled;
+	std::vector<GameObject*> copies;
+	GameObject* _instance;
+
+	void initialise();
+	void clearReferences(GameObject* original);
+	void operator delete(void* ptr);
 
 	static std::vector<GameObject*> activeObjects;
 	static std::vector<GameObject*> inactiveObjects;
