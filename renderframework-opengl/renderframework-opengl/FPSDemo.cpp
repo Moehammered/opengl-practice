@@ -72,6 +72,7 @@ void FPSDemo::initialise()
 	comp->movementSpeed = pl_movespeed;
 	comp->rotationSpeed = pl_rotationspeed;
 	comp->mouseSensitivity = mouseSensitivity;
+	comp->enablePitchRotation = true;
 
 	playerRenderer = player->AddComponent<RenderComponent>();
 	PrimitiveShapes::CreateCube(playerRenderer->mesh);

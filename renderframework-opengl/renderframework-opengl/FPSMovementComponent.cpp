@@ -10,6 +10,7 @@
 FPSMovementComponent::FPSMovementComponent()
 {
 	movementSpeed = rotationSpeed = mouseSensitivity = 1;
+	enablePitchRotation = false;
 	//printLine("FPSMOVECOMP");
 }
 
@@ -60,5 +61,20 @@ void FPSMovementComponent::checkPlayerRotation(Transform & tr, float deltaTime)
 	{
 		glm::vec3 finalAxis = glm::normalize(rotationAxis);
 		tr.rotate(finalAxis, mouseSensitivity * rotationSpeed * deltaTime);
+	}
+	if (enablePitchRotation)
+	{
+		rotationAxis = glm::vec3(0);
+		rotationAxis.x = Input::RawMouseMovementDelta().y;
+		if (Input::IsKeyHeld(GLFW_KEY_UP))
+			rotationAxis.x = 1;
+		else if (Input::IsKeyHeld(GLFW_KEY_DOWN))
+			rotationAxis.x = -1;
+
+		if (glm::length2(rotationAxis) > 0.1f)
+		{
+			rotationAxis = glm::normalize(rotationAxis);
+			tr.rotate(rotationAxis, rotationSpeed * deltaTime);
+		}
 	}
 }

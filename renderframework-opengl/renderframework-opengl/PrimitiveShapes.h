@@ -9,5 +9,7 @@ namespace PrimitiveShapes
 	void CreateXYPlane(StaticMesh& mesh);
 	void CreateXZPlane(StaticMesh& mesh);
 	void CreateTriangle(StaticMesh& mesh);
+	void CreateSphere(StaticMesh& mesh);
+	void CreatePyramid(StaticMesh& mesh);
 }
 #endif

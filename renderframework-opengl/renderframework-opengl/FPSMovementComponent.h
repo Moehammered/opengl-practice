@@ -11,6 +11,7 @@ public:
 	FPSMovementComponent();
 	~FPSMovementComponent();
 
+	bool enablePitchRotation;
 	float movementSpeed;
 	float rotationSpeed;
 	float mouseSensitivity;
