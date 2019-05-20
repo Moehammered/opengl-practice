@@ -71,9 +71,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\devlibs\opengl-libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\devlibs\opengl-libs\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\devlibs\opengl-libs\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\devlibs\opengl-libs\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -83,7 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\devlibs\opengl-libs\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:library %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -108,7 +110,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\devlibs\opengl-libs\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>/NODEFAULTLIB:library %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -158,10 +160,12 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformHelperFunctions.cpp" />
+    <ClCompile Include="UIRenderComponent.cpp" />
     <ClCompile Include="UpdateableComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CharacterFontData.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentUpdateQueue.h" />
     <ClInclude Include="FileLoader.h" />
@@ -191,11 +195,17 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformHelperFunctions.h" />
+    <ClInclude Include="UIRenderComponent.h" />
     <ClInclude Include="UpdateableComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="..\..\..\..\..\..\..\devlibs\opengl-libs\libs\freetype.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
     <None Include="coltex-shader.fs" />
     <None Include="coltex-shader.vs" />
+    <None Include="font-shader.fs" />
+    <None Include="font-shader.vs" />
     <None Include="shader.fs" />
     <None Include="shader.vs" />
     <None Include="transform-coltex-shader.vs" />
@@ -208,6 +218,9 @@
   <ItemGroup>
     <Text Include="Object-class-design.txt" />
     <Text Include="Todo-list.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,6 +21,15 @@ void RenderQueue::processRenderQueue()
 	}
 }
 
+void RenderQueue::processUIRenderQueue()
+{
+	for (int i = 0; i < uiRenderers.size(); ++i)
+	{
+		if (uiRenderers[i]->isActive())
+			uiRenderers[i]->draw();
+	}
+}
+
 RenderQueue::RenderQueue()
 {
 	renderers.reserve(10);
@@ -36,6 +45,11 @@ RenderQueue::~RenderQueue()
 void RenderQueue::AddToQueue(RenderComponent * rendComp)
 {
 	renderers.push_back(rendComp);
+}
+
+void RenderQueue::AddToQueue(UIRenderComponent * rendComp)
+{
+	uiRenderers.push_back(rendComp);
 }
 
 void RenderQueue::removeFromQueue(RenderComponent * rendComp)
@@ -57,6 +71,18 @@ void RenderQueue::removeFromQueue(unsigned int id)
 		if (renderers[i]->id == id)
 		{
 			renderers.erase(renderers.begin() + i);
+			break;
+		}
+	}
+}
+
+void RenderQueue::removeFromQueue(UIRenderComponent * rendComp)
+{
+	for (int i = 0; i < uiRenderers.size(); ++i)
+	{
+		if (uiRenderers[i]->id == rendComp->id)
+		{
+			uiRenderers.erase(uiRenderers.begin() + i);
 			break;
 		}
 	}

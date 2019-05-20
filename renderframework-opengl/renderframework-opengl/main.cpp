@@ -47,11 +47,10 @@ int main(char** argv, int argc)
 	fpsDemo.initialise();
 	glfwSetInputMode(instance->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	//printLine("MainCam?: " + std::to_string(Camera::MainCamera != nullptr));
-
+	
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
-		//calculate timing variables
+		//calculate timing and event variables
 		Timer::tick();
 		glfwPollEvents();
 		Input::RecordMouseMovement();
@@ -60,20 +59,23 @@ int main(char** argv, int argc)
 		{
 			glfwSetWindowShouldClose(instance->getWindow(), true);
 		}
-		//render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		fpsDemo.update();
 
+		//tick entities
+		fpsDemo.update();
 		componentUpdater->updateComponents();
 
+		//render
 		gameRenderer->processRenderQueue();
+		gameRenderer->processUIRenderQueue();
 		
 		//check for events and swap render buffers
 		glfwSwapBuffers(instance->getWindow());
 		Input::RecordKeys();
 
+		//perform post update activities and tasks (toggling active state, managing pools and services, etc)
 		GameObject::ProcessPostUpdate();
 		allocator->processDestroyQueue();
 	}

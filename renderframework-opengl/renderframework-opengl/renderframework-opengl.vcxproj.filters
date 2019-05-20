@@ -108,6 +108,9 @@
     <ClCompile Include="ObjectAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UIRenderComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h">
@@ -203,6 +206,12 @@
     <ClInclude Include="SharedPointerTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UIRenderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterFontData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.vs">
@@ -218,6 +227,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="transform-coltex-shader.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="font-shader.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="font-shader.fs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
@@ -239,5 +254,15 @@
     <Text Include="Object-class-design.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\..\..\..\..\..\..\devlibs\opengl-libs\libs\freetype.dll">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

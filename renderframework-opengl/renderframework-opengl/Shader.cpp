@@ -17,7 +17,7 @@ Shader::Shader(std::string vertexShaderPath, std::string fragmentShaderPath)
 	{
 		vertexShader = loadTextFile(vertexShaderPath);
 		fragmentShader = loadTextFile(fragmentShaderPath);
-
+		//std::cout << vertexShader << std::endl;
 		compile(vertexShader, fragmentShader);
 	}
 	catch (std::exception e)

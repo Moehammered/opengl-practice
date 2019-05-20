@@ -7,6 +7,7 @@
 
 #include "FPSMovementComponent.h"
 #include "RenderComponent.h"
+#include "UIRenderComponent.h"
 
 //fps demo variables
 glm::vec3 pl_rot;
@@ -17,6 +18,7 @@ glm::vec3 pl_dir;
 RenderComponent* playerRenderer;
 RenderComponent* groundRenderer;
 RenderComponent* bigBoxRenderer;
+UIRenderComponent* uiText;
 
 void setupCamera(Camera& cam)
 {
@@ -72,7 +74,7 @@ void FPSDemo::initialise()
 	comp->movementSpeed = pl_movespeed;
 	comp->rotationSpeed = pl_rotationspeed;
 	comp->mouseSensitivity = mouseSensitivity;
-	comp->enablePitchRotation = true;
+	comp->enablePitchRotation = false;
 
 	playerRenderer = player->AddComponent<RenderComponent>();
 	PrimitiveShapes::CreateCube(playerRenderer->mesh);
@@ -88,6 +90,13 @@ void FPSDemo::initialise()
 	PrimitiveShapes::CreateCube(bigBoxRenderer->mesh);
 	bigBoxRenderer->initialise();
 	bigBoxRenderer->material->setTexture(new Texture("container.jpg"));
+
+	uiText = player->AddComponent<UIRenderComponent>();
+
+	uiText->initialise();
+	uiText->text = "TExt component lele";
+	uiText->pos.y = 60;
+	uiText->scale = 0.25f;
 }
 
 void FPSDemo::update()
@@ -129,5 +138,10 @@ void FPSDemo::update()
 	else if (Input::IsKeyPressed(GLFW_KEY_9))
 	{
 		GameObject::Destroy(bigBox);
+	}
+
+	if (player != nullptr)
+	{
+		uiText->text = player->transform.toString();
 	}
 }

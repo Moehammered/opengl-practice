@@ -14,8 +14,10 @@ public:
 	Material(Shader* const preMadeShader);
 	~Material();
 
+	unsigned int shaderID();
 	void setShader(Shader* const sh);
 	void setTexture(Texture* const tx);
+	void setIntProperty(std::string prop, int val);
 	void setTransformProperty(std::string prop, glm::mat4 transform);
 	void use();
 

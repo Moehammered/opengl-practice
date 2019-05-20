@@ -9,6 +9,9 @@
 
 void RenderComponent::initialise()
 {
+	//add reference to the renderqueue for this component
+	enabled = true;
+	RenderQueue::Instance()->AddToQueue(this);
 	material = new Material();
 }
 
@@ -33,14 +36,12 @@ void RenderComponent::draw()
 
 RenderComponent::RenderComponent()
 {
-	//add reference to the renderqueue for this component
-	enabled = true;
-	RenderQueue::Instance()->AddToQueue(this);
 }
 
 RenderComponent::~RenderComponent()
 {
 	delete material;
+	material = nullptr;
 	printf("RenderComponent destructor called\n");
 	RenderQueue::Instance()->removeFromQueue(id);
 }

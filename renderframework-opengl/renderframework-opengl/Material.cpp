@@ -25,6 +25,11 @@ Material::~Material()
 	delete texture;
 }
 
+unsigned int Material::shaderID()
+{
+	return shader->ID();
+}
+
 void Material::setShader(Shader * const sh)
 {
 	delete shader;
@@ -36,6 +41,11 @@ void Material::setTexture(Texture * const tx)
 	if (texture != nullptr)
 		delete texture;
 	texture = tx;
+}
+
+void Material::setIntProperty(std::string prop, int val)
+{
+	shader->setInt(prop, val);
 }
 
 void Material::setTransformProperty(std::string prop, glm::mat4 transform)
