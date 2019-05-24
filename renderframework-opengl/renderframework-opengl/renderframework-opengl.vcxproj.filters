@@ -111,6 +111,12 @@
     <ClCompile Include="UIRenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TransformVisualiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h">
@@ -212,6 +218,12 @@
     <ClInclude Include="CharacterFontData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TransformVisualiser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.vs">
@@ -233,6 +245,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="font-shader.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="VertexColourTransform.vs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="VertexColourTransform.fs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

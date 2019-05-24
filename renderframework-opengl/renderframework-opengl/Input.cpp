@@ -63,6 +63,8 @@ void Input::StoreKeyState(GLFWwindow * window, int key, int scancode, int action
 {
 	Input* in = Instance();
 	//in.prevKeyState = in.currKeyState;
+	if (key < 0)
+		return;
 	in->prevKeyState[key] = in->currKeyState[key];
 	in->currKeyState[key] = action;
 	#if INPUT_VERBOSEOUTPUT == 1

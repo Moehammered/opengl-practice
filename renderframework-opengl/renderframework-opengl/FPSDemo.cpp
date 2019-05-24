@@ -8,8 +8,10 @@
 #include "FPSMovementComponent.h"
 #include "RenderComponent.h"
 #include "UIRenderComponent.h"
+#include "TransformVisualiser.h"
 
 //fps demo variables
+bool lineMode;
 glm::vec3 pl_rot;
 float pl_movespeed;
 float pl_rotationspeed;
@@ -19,6 +21,7 @@ RenderComponent* playerRenderer;
 RenderComponent* groundRenderer;
 RenderComponent* bigBoxRenderer;
 UIRenderComponent* uiText;
+TransformVisualiser* visualiser;
 
 void setupCamera(Camera& cam)
 {
@@ -46,6 +49,7 @@ void FPSDemo::cleanup()
 void FPSDemo::initialise()
 {
 	setupCamera(mainCam);
+	lineMode = false;
 
 	xAxis = Line(glm::vec3(0, 0, 0), glm::vec3(50, 0, 0), Colour::Red());
 	yAxis = Line(glm::vec3(0, 0, 0), glm::vec3(0, 50, 0), Colour::Green());
@@ -92,17 +96,43 @@ void FPSDemo::initialise()
 	bigBoxRenderer->material->setTexture(new Texture("container.jpg"));
 
 	uiText = player->AddComponent<UIRenderComponent>();
-
 	uiText->initialise();
 	uiText->text = "TExt component lele";
 	uiText->pos.y = 60;
 	uiText->scale = 0.25f;
+
+	visualiser = player->AddComponent<TransformVisualiser>();
+	visualiser->initialise();
 }
 
 void FPSDemo::update()
 {
 	Scene::update();
 
+	if (Input::IsKeyHeld(GLFW_KEY_DOWN))
+	{
+		mainCam.transform.position -= mainCam.transform.Forward() * Timer::DeltaTime() * pl_movespeed;
+		mainCam.updateView();
+	}
+	else if (Input::IsKeyHeld(GLFW_KEY_UP))
+	{
+		mainCam.transform.position += mainCam.transform.Forward() * Timer::DeltaTime() * pl_movespeed;
+		mainCam.updateView();
+	}
+
+	if (Input::IsKeyPressed(GLFW_KEY_L))
+	{
+		if (lineMode)
+		{
+			lineMode = false;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else
+		{
+			lineMode = true;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+	}
 	
 	if (Input::IsKeyPressed(GLFW_KEY_2))
 	{

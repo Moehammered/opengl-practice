@@ -8,7 +8,7 @@ class Mesh
 {
 public:
 	Mesh();
-	~Mesh();
+	virtual ~Mesh();
 
 	void setVertices(Vertex* vertices, int vertexCount);
 	void setIndices(int* indices, int indexCount);

@@ -133,6 +133,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentUpdateQueue.cpp" />
+    <ClCompile Include="DynamicMesh.cpp" />
     <ClCompile Include="FileLoader.cpp" />
     <ClCompile Include="FPSDemo.cpp" />
     <ClCompile Include="FPSMovementComponent.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformHelperFunctions.cpp" />
+    <ClCompile Include="TransformVisualiser.cpp" />
     <ClCompile Include="UIRenderComponent.cpp" />
     <ClCompile Include="UpdateableComponent.cpp" />
   </ItemGroup>
@@ -168,6 +170,7 @@
     <ClInclude Include="CharacterFontData.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentUpdateQueue.h" />
+    <ClInclude Include="DynamicMesh.h" />
     <ClInclude Include="FileLoader.h" />
     <ClInclude Include="FPSDemo.h" />
     <ClInclude Include="FPSMovementComponent.h" />
@@ -195,6 +198,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformHelperFunctions.h" />
+    <ClInclude Include="TransformVisualiser.h" />
     <ClInclude Include="UIRenderComponent.h" />
     <ClInclude Include="UpdateableComponent.h" />
   </ItemGroup>
@@ -209,6 +213,8 @@
     <None Include="shader.fs" />
     <None Include="shader.vs" />
     <None Include="transform-coltex-shader.vs" />
+    <None Include="VertexColourTransform.fs" />
+    <None Include="VertexColourTransform.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png" />

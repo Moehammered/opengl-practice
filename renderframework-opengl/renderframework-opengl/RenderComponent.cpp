@@ -26,6 +26,8 @@ void RenderComponent::draw()
 	{
 		if (Camera::MainCamera)
 		{
+			/*printf("RenderComponent rendering[id:%i]\n", id);
+			printf("RenderComponent owner[%s]\n", owner->toString().c_str());*/
 			material->use();
 			material->setTransformProperty("transform", 
 				Camera::MainCamera->ProjView() * owner->transform.TransformMat4());

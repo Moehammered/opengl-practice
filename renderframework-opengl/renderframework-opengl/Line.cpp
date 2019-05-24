@@ -21,13 +21,18 @@ Line::Line(glm::vec3 start, glm::vec3 end, Colour colour)
 
 void Line::draw()
 {
+	GLint premode = 0;
+	GLboolean depthmode = 0;
+	glGetIntegerv(GL_POLYGON_MODE, &premode);
+	glGetBooleanv(GL_DEPTH_TEST, &depthmode);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	//glDisable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
 	glLineWidth(5);
 	glBindVertexArray(vertexArrayID);
 	glDrawElements(meshType, 2, GL_UNSIGNED_INT, 0);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//glEnable(GL_DEPTH_TEST);
+	glPolygonMode(GL_FRONT_AND_BACK, premode);
+	if(depthmode)
+		glEnable(GL_DEPTH_TEST);
 }
 
 Line::~Line()
