@@ -10,8 +10,8 @@ public:
 	Mesh();
 	virtual ~Mesh();
 
-	void setVertices(Vertex* vertices, int vertexCount);
-	void setIndices(int* indices, int indexCount);
+	virtual void setVertices(Vertex* vertices, int vertexCount);
+	virtual void setIndices(int* indices, int indexCount);
 	void useTriangleList();
 	void useTriangleStrip();
 

@@ -20,6 +20,6 @@ private:
 	Colour lineColours[3];
 
 	void setupLine(DynamicMesh& mesh, Vertex * const vertBuffer);
-	void drawLine(DynamicMesh& mesh);
+	void drawAxis(DynamicMesh& forward, DynamicMesh& right, DynamicMesh& up);
 };
 

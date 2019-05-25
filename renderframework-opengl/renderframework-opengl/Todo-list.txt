@@ -1,3 +1,24 @@
+Next necessity (May 25th 2019)
+	+Vertex Array Object
+		keep and protect vertex array state
+		allow it to be bound so opengl calls can be made
+		only owning class can destroy it (return const reference for binding usage)
+	+OpenGL state object??
+		keep track of some of the opengl state for query
+		needs to be fleshed out, but an idea for now (see TransformVisualiser::drawAxis())
+		or be a helper class to query basic state
+	+Collision detection
+		Simple AABB first
+		Research mass object count collision detection
+			one idea: use "movement" flags to add something to a collision queue
+		Visualise Collision boxes
+	+Clean up render component
+		Remove the mesh member property
+		redefine a derived class for MeshRenderer that takes a mesh
+			Let the	user decide if they'll use DynamicMesh or StaticMesh for now
+			Later might make a StaticMeshRenderer and DynamicMeshRenderer component
+			to better specialise their rendering and allow buffer mapping(maybe)
+
 stuff to look at later: http://www.stroustrup.com/bs_faq2.html#constraints
 
 begin entity component design
@@ -12,6 +33,7 @@ begin entity component design
 			out in memory.
 				(2 sided frame memory allocation pattern?)
 
+		(Done/Solved)
 		Started Object class
 			Need to make GameObject and Component inherit from
 			this class.
@@ -29,7 +51,8 @@ begin entity component design
 			pose better for readability. Or atleast allow the 'delete' keyword
 			to be used?
 			I should look into shared_ptr's functionality and attempt using it.
-				
+		
+		(Done)
 		PROBLEM: needs to be changed into factory method.
 			Factory method
 				Need to abstract all instantiation and destruction...
@@ -78,7 +101,7 @@ begin entity component design
 			so when destroy was called on a "Component" pointer it 
 			didn't invoke the destructors for the derived classes
 
-		(worked around) - when gameobjects are created, they need to be able to be added
+		(Deprecated) - when gameobjects are created, they need to be able to be added
 		to an active scene immmediately.
 
 		(done) - drawing components need to be rendered last, 
@@ -97,13 +120,16 @@ begin entity component design
 		https://en.cppreference.com/w/cpp/language/template_specialization
 		http://www.cplusplus.com/doc/oldtutorial/templates/
 
+		(Done - needs refactoring to block being destroyed without Destroy function)
 		Continue testing how components are added and removed
 			So far, components are not destroyed unnecessarily
 			but needs more testing.
 
+	(Done-ish)
 	Made scene class, and for now inheriting it to make FPSDemo
 		Similar to the game class and how it works in Monogame
 
+	(Done)
 	Need to move over the stuff from main into the FPSDemo and
 		use that to make small tests for now
 			--- think I'll need to refactor a lot of the base
@@ -132,7 +158,7 @@ begin entity component design
 
 
 
-Transformations
+Transformations (Done)
 	Translation, rotation, scale
 
 	quaternions
@@ -141,7 +167,7 @@ Transformations
 			https://github.com/fehaar/FFWD/blob/master/Framework/PressPlay.FFWD/Quaternion.cs
 			https://github.com/Moehammered/MonogameLearning/blob/master/Pathfinding/Pathfinding/BaseComponents/Transform.cs
 
-Transform component made
+Transform component made (DONE)
 	Can rotate, but needs tests to see what is bugged/misoriented
 	position is fine
 	needs functions to automatically return its mat4 representations
@@ -156,7 +182,7 @@ Camera component made
 
 
 Debugging Features
-	Add line rendering class
+	Add line rendering class (DONE)
 
 ;;;;;;;;;;;;Orientation debugging;;;;;;;
 	FIXED!!!!!!!!!!!!!!!!
@@ -173,7 +199,7 @@ Debugging Features
 		http://joestevens.net/post/20063172257/alternate-view-matrix-construction
 
 Next
-	Make an fps demo to test transforms
+	Make an fps demo to test transforms (DONE)
 		-started basic movement
 		-needs rotation ------------------
 			-rotation is inverted, mainly orientation vectors are
