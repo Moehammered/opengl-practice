@@ -13,6 +13,8 @@
 #include "RenderQueue.h"
 #include "ComponentUpdateQueue.h"
 #include "ObjectAllocator.h"
+#include "BoundingVolume.h"
+#include "TransformHelperFunctions.h"
 
 int main(char** argv, int argc)
 {
@@ -47,7 +49,21 @@ int main(char** argv, int argc)
 	fpsDemo.initialise();
 	glfwSetInputMode(instance->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	
+	BoxVolume collider(glm::vec3(0), 2);
+	std::cout << "Collider info\n" << collider.toString() << std::endl;
+	glm::vec3 testPoint = glm::vec3(0.5f, 0, 0);
+	glm::vec3 p2 = glm::vec3(0);
+	glm::vec3 p3 = glm::vec3(3, 0, -0.7f);
+	glm::vec3 p4 = glm::vec3(-1, -0.3f, 0.667f);
+	std::cout << "Test intersection point: " << vec3ToString(testPoint) << std::endl;
+	std::cout << "Does it intersect? " << collider.intersect(testPoint) << std::endl;
+	std::cout << "Test intersection point: " << vec3ToString(p2) << std::endl;
+	std::cout << "Does it intersect? " << collider.intersect(p2) << std::endl;
+	std::cout << "Test intersection point: " << vec3ToString(p3) << std::endl;
+	std::cout << "Does it intersect? " << collider.intersect(p3) << std::endl;
+	std::cout << "Test intersection point: " << vec3ToString(p4) << std::endl;
+	std::cout << "Does it intersect? " << collider.intersect(p4) << std::endl;
+
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing and event variables

@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoundingVolume.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentUpdateQueue.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="UpdateableComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoundingVolume.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CharacterFontData.h" />
     <ClInclude Include="Component.h" />
