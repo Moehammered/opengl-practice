@@ -10,6 +10,8 @@ public:
 	TransformVisualiser();
 	~TransformVisualiser();
 
+	unsigned int lineWidth;
+
 	void initialise() override;
 	void draw() override;
 

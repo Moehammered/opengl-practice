@@ -9,6 +9,7 @@
 #include "RenderComponent.h"
 #include "UIRenderComponent.h"
 #include "TransformVisualiser.h"
+#include "VolumeVisualiser.h"
 
 //fps demo variables
 bool lineMode;
@@ -22,6 +23,7 @@ RenderComponent* groundRenderer;
 RenderComponent* bigBoxRenderer;
 UIRenderComponent* uiText;
 TransformVisualiser* visualiser;
+VolumeVisualiser* collisionRenderer;
 
 void setupCamera(Camera& cam)
 {
@@ -103,6 +105,13 @@ void FPSDemo::initialise()
 
 	visualiser = player->AddComponent<TransformVisualiser>();
 	visualiser->initialise();
+
+	BoxVolume collider(glm::vec3(0), 1);
+	BoxVolume box2(glm::vec3(0.5f, 0, 0), 2);
+	collisionRenderer = player->AddComponent<VolumeVisualiser>();
+	collisionRenderer->volumeToRender = collider;
+	collisionRenderer->initialise();
+	collisionRenderer->lineWidth = 6;
 }
 
 void FPSDemo::update()

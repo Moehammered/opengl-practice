@@ -120,6 +120,9 @@
     <ClCompile Include="BoundingVolume.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="VolumeVisualiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelperFunctions.h">
@@ -228,6 +231,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BoundingVolume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeVisualiser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

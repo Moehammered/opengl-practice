@@ -5,6 +5,7 @@
 
 TransformVisualiser::TransformVisualiser()
 {
+	lineWidth = 3;
 }
 
 
@@ -83,12 +84,12 @@ void TransformVisualiser::drawAxis(DynamicMesh & forward, DynamicMesh & right, D
 	glGetIntegerv(GL_POLYGON_MODE, &premode);
 	glGetBooleanv(GL_DEPTH_TEST, &depthmode);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glDisable(GL_DEPTH_TEST);
-	glLineWidth(5);
+	//glDisable(GL_DEPTH_TEST);
+	glLineWidth(lineWidth);
 	forward.draw();
 	right.draw();
 	up.draw();
 	glPolygonMode(GL_FRONT_AND_BACK, premode);
-	if (depthmode)
-		glEnable(GL_DEPTH_TEST);
+	//if (depthmode)
+	//	glEnable(GL_DEPTH_TEST);
 }

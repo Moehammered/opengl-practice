@@ -16,6 +16,20 @@
 #include "BoundingVolume.h"
 #include "TransformHelperFunctions.h"
 
+void printCollisionTest(BoxVolume& vol1, BoxVolume& vol2)
+{
+	std::cout << "\nCollider[1] info\n" << vol1.toString() << std::endl;
+	std::cout << "\nCollider[2] info\n" << vol2.toString() << std::endl;
+	std::cout << "Does it intersect? " << vol1.intersect(vol2) << std::endl;
+}
+
+void printCollisionTest(BoxVolume& collider, glm::vec3 testPoint)
+{
+	std::cout << "\nCollider info\n" << collider.toString() << std::endl;
+	std::cout << "\nTest intersection point: " << vec3ToString(testPoint) << std::endl;
+	std::cout << "Does it intersect? " << collider.intersect(testPoint) << std::endl;
+}
+
 int main(char** argv, int argc)
 {
 	stbi_set_flip_vertically_on_load(true);
@@ -50,19 +64,18 @@ int main(char** argv, int argc)
 	glfwSetInputMode(instance->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	BoxVolume collider(glm::vec3(0), 2);
-	std::cout << "Collider info\n" << collider.toString() << std::endl;
 	glm::vec3 testPoint = glm::vec3(0.5f, 0, 0);
 	glm::vec3 p2 = glm::vec3(0);
 	glm::vec3 p3 = glm::vec3(3, 0, -0.7f);
 	glm::vec3 p4 = glm::vec3(-1, -0.3f, 0.667f);
-	std::cout << "Test intersection point: " << vec3ToString(testPoint) << std::endl;
-	std::cout << "Does it intersect? " << collider.intersect(testPoint) << std::endl;
-	std::cout << "Test intersection point: " << vec3ToString(p2) << std::endl;
-	std::cout << "Does it intersect? " << collider.intersect(p2) << std::endl;
-	std::cout << "Test intersection point: " << vec3ToString(p3) << std::endl;
-	std::cout << "Does it intersect? " << collider.intersect(p3) << std::endl;
-	std::cout << "Test intersection point: " << vec3ToString(p4) << std::endl;
-	std::cout << "Does it intersect? " << collider.intersect(p4) << std::endl;
+	printCollisionTest(collider, testPoint);
+	printCollisionTest(collider, p2);
+	printCollisionTest(collider, p3);
+	printCollisionTest(collider, p4);
+
+	BoxVolume box2(glm::vec3(0.5f, 0, 0), 2);
+
+	printCollisionTest(collider, box2);
 
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
@@ -75,7 +88,7 @@ int main(char** argv, int argc)
 		{
 			glfwSetWindowShouldClose(instance->getWindow(), true);
 		}
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.08f, 0.08f, 0.09f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 

@@ -1,5 +1,7 @@
 #include "BoundingVolume.h"
 #include "TransformHelperFunctions.h"
+#include <glm\gtx\norm.hpp>
+#include <iostream>
 
 BoxVolume::BoxVolume()
 {
@@ -51,7 +53,31 @@ bool BoxVolume::intersect(glm::vec3 point)
 
 bool BoxVolume::intersect(BoxVolume & other)
 {
-	return false;
+	//early out method of checking squared distance from other
+	/*float sqrDist = glm::length2(this->centre - other.centre - other.halfSize);
+	float sqrSize = glm::length2(this->centre + this->halfSize);
+	std::cout << "Sqr dist: " << sqrDist << "\nSqr size: " << sqrSize << std::endl;
+	if (sqrDist > sqrSize)
+		return false;*/
+	
+	//let's find the closest point to the centre from the other
+	glm::vec3 pointToCheck;
+	if (other.centre.x > this->centre.x) //the other box is to the right
+		pointToCheck.x = other.minPoint.x;
+	else
+		pointToCheck.x = other.maxPoint.x;
+	if (other.centre.y > this->centre.y) //the other box is above
+		pointToCheck.y = other.minPoint.y;
+	else
+		pointToCheck.y = other.maxPoint.y;
+	if (other.centre.z > this->centre.z) //the other box is behind
+		pointToCheck.z = other.minPoint.z;
+	else
+		pointToCheck.z = other.maxPoint.z;
+
+	std::cout << "Testing point: " << vec3ToString(pointToCheck) << std::endl;
+
+	return intersect(pointToCheck);
 }
 
 void BoxVolume::resizeVolume(glm::vec3 centre, glm::vec3 halfSize)
