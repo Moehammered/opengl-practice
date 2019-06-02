@@ -11,7 +11,9 @@ Next necessity (May 25th 2019)
 		Simple AABB first
 		Research mass object count collision detection
 			one idea: use "movement" flags to add something to a collision queue
-		Visualise Collision boxes
+		Visualise Collision boxes (done)
+		Make a demo scene to test collision detection
+			use ui to show collision info of 2 boxes, maybe change colours?
 	+Clean up render component
 		Remove the mesh member property
 		redefine a derived class for MeshRenderer that takes a mesh

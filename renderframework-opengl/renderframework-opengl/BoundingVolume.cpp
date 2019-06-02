@@ -54,10 +54,13 @@ bool BoxVolume::intersect(glm::vec3 point)
 bool BoxVolume::intersect(BoxVolume & other)
 {
 	//early out method of checking squared distance from other
-	/*float sqrDist = glm::length2(this->centre - other.centre - other.halfSize);
-	float sqrSize = glm::length2(this->centre + this->halfSize);
-	std::cout << "Sqr dist: " << sqrDist << "\nSqr size: " << sqrSize << std::endl;
-	if (sqrDist > sqrSize)
+	/*float sqrDist = glm::length2(this->centre - other.centre);
+	float sqrSize = glm::length2(this->halfSize + other.halfSize);
+	float sqrDifference = sqrDist - sqrSize;
+	std::cout << "Sqr dist: " << sqrDist << "\tSqr size: " << sqrSize << std::endl;
+	std::cout << "Sqr dist - sqr size = " << sqrDifference << std::endl;
+	std::cout << sqrDifference << " > " << sqrSize << "?" << std::endl;
+	if (sqrDifference > sqrSize)
 		return false;*/
 	
 	//let's find the closest point to the centre from the other

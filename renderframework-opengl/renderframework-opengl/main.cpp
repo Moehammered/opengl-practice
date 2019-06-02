@@ -15,6 +15,7 @@
 #include "ObjectAllocator.h"
 #include "BoundingVolume.h"
 #include "TransformHelperFunctions.h"
+#include "VertexArrayObject.h"
 
 void printCollisionTest(BoxVolume& vol1, BoxVolume& vol2)
 {
@@ -74,9 +75,32 @@ int main(char** argv, int argc)
 	printCollisionTest(collider, p4);
 
 	BoxVolume box2(glm::vec3(0.5f, 0, 0), 2);
-
+	BoxVolume box3(glm::vec3(0,3,0), 0.5f);
 	printCollisionTest(collider, box2);
+	printCollisionTest(box3, box2);
 
+
+	VertexArrayObject testVAO;
+	BufferProperty buffers[] = {
+		{
+			GL_ARRAY_BUFFER, sizeof(Vertex) * 3, nullptr, GL_STATIC_DRAW
+		},
+		{
+			GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * 3, nullptr, GL_STATIC_DRAW
+		}
+	};
+	VertexAttributes attributes[] = {
+		{
+			0, 3, GL_FLOAT, GL_FALSE, 
+			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::pos))
+		},
+		{
+			1, 3, GL_FLOAT, GL_FALSE, 
+			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::colour))
+		}
+	};
+	testVAO.setupBuffers(buffers, 2);
+	testVAO.setupAttributes(attributes, 2);
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing and event variables

@@ -165,6 +165,7 @@
     <ClCompile Include="TransformVisualiser.cpp" />
     <ClCompile Include="UIRenderComponent.cpp" />
     <ClCompile Include="UpdateableComponent.cpp" />
+    <ClCompile Include="VertexArrayObject.cpp" />
     <ClCompile Include="VolumeVisualiser.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +205,7 @@
     <ClInclude Include="TransformVisualiser.h" />
     <ClInclude Include="UIRenderComponent.h" />
     <ClInclude Include="UpdateableComponent.h" />
+    <ClInclude Include="VertexArrayObject.h" />
     <ClInclude Include="VolumeVisualiser.h" />
   </ItemGroup>
   <ItemGroup>
