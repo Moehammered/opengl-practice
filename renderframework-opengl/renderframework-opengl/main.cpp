@@ -16,6 +16,15 @@
 #include "BoundingVolume.h"
 #include "TransformHelperFunctions.h"
 #include "VertexArrayObject.h"
+#include "PrimitiveShapes.h"
+
+struct TestContainer {
+	VertexArrayObject vao;
+	Transform tr;
+	//need to fix the initialisation order to allow stack allocation
+	Material* mat;
+	Mesh mesh;
+};
 
 void printCollisionTest(BoxVolume& vol1, BoxVolume& vol2)
 {
@@ -79,28 +88,37 @@ int main(char** argv, int argc)
 	printCollisionTest(collider, box2);
 	printCollisionTest(box3, box2);
 
+	///setup block for a de-coupled mesh and vao
+	TestContainer momentOfTruth;
+	{
+		PrimitiveShapes::CreateCube(momentOfTruth.mesh);
+		//Mesh mesh = momentOfTruth.mesh;
+		//int* indices = mesh.Indices();
+		BufferProperty buffers[] = {
+			{
+				GL_ARRAY_BUFFER, sizeof(Vertex) * momentOfTruth.mesh.VertexCount(), momentOfTruth.mesh.Vertices(), GL_STATIC_DRAW
+			},
+			{
+				GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * momentOfTruth.mesh.IndexCount(), momentOfTruth.mesh.Indices(), GL_STATIC_DRAW
+			}
+		};
+		VertexAttributes attributes[] = {
+			{
+				0, 3, GL_FLOAT, GL_FALSE,
+				sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::pos))
+			},
+			{
+				1, 3, GL_FLOAT, GL_FALSE,
+				sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::colour))
+			}
+		};
+		momentOfTruth.vao.setupBuffers(buffers, 2);
+		momentOfTruth.vao.setupAttributes(attributes, 2);
+		momentOfTruth.mat = new Material("VertexColourTransform.vs", "VertexColourTransform.fs");
+		momentOfTruth.tr.position = glm::vec3(0, 0, -3);
+	}
+	///setup block for a de-coupled mesh and vao
 
-	VertexArrayObject testVAO;
-	BufferProperty buffers[] = {
-		{
-			GL_ARRAY_BUFFER, sizeof(Vertex) * 3, nullptr, GL_STATIC_DRAW
-		},
-		{
-			GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * 3, nullptr, GL_STATIC_DRAW
-		}
-	};
-	VertexAttributes attributes[] = {
-		{
-			0, 3, GL_FLOAT, GL_FALSE, 
-			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::pos))
-		},
-		{
-			1, 3, GL_FLOAT, GL_FALSE, 
-			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::colour))
-		}
-	};
-	testVAO.setupBuffers(buffers, 2);
-	testVAO.setupAttributes(attributes, 2);
 	while (!glfwWindowShouldClose(instance->getWindow()))
 	{
 		//calculate timing and event variables
@@ -122,6 +140,17 @@ int main(char** argv, int argc)
 
 		//render
 		gameRenderer->processRenderQueue();
+		
+		momentOfTruth.mat->use();
+		momentOfTruth.vao.bindVAO();
+
+			momentOfTruth.mat->setTransformProperty("transform",
+				Camera::MainCamera->ProjView() * momentOfTruth.tr.TransformMat4());
+			glDrawElements(momentOfTruth.mesh.MeshType(),
+				momentOfTruth.mesh.IndexCount(), GL_UNSIGNED_INT, 0);
+
+		momentOfTruth.vao.unbind();
+
 		gameRenderer->processUIRenderQueue();
 		
 		//check for events and swap render buffers

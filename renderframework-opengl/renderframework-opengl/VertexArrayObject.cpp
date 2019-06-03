@@ -7,6 +7,7 @@
 VertexArrayObject::VertexArrayObject()
 {
 	vao = vbo = ebo = 0;
+	VBO_INDEX = EBO_INDEX = 0;
 	initialise();
 }
 
@@ -33,9 +34,11 @@ void VertexArrayObject::setupBuffers(BufferProperty * const properties, GLuint p
 		{
 			case GL_ARRAY_BUFFER:
 				bufferID = vbo;
+				VBO_INDEX = i;
 				break;
 			case GL_ELEMENT_ARRAY_BUFFER:
 				bufferID = ebo;
+				EBO_INDEX = i;
 				break;
 			default: //skip it as it's unsupported for now
 				bufferID = 0;
@@ -50,6 +53,8 @@ void VertexArrayObject::setupBuffers(BufferProperty * const properties, GLuint p
 		glBindBuffer(prop.bufferTarget, 0);
 		printBufferProperty(prop);
 	}
+	//need to do this to correct it from unbinding from the VAO...
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo); 
 	unbind();
 }
 
@@ -91,6 +96,28 @@ void VertexArrayObject::disableAttribute(GLuint attribNumber)
 	unbind();
 }
 
+void VertexArrayObject::resizeBuffer(GLenum target, GLsizeiptr newSize)
+{
+	switch (target)
+	{
+		case GL_ARRAY_BUFFER:
+			bindVBO();
+			glBufferData(target, newSize, properties[VBO_INDEX].data, properties[VBO_INDEX].usage);
+			glBindBuffer(target, 0);
+			break;
+		case GL_ELEMENT_ARRAY_BUFFER:
+			bindVAO();
+			bindEBO();
+			glBufferData(target, newSize, properties[EBO_INDEX].data, properties[EBO_INDEX].usage);
+			glBindVertexArray(0);
+			glBindBuffer(target, 0);
+			break;
+		default: //skip it as it's unsupported for now
+			std::cout << "UNSUPPORTED TARGET BUFFER TYPE TO RESIZE!\n\n";
+			return;
+	}
+}
+
 void VertexArrayObject::copyDataToBuffer(GLenum target, const GLvoid * data, GLsizeiptr dataSize)
 {
 	//figure out type
@@ -98,10 +125,14 @@ void VertexArrayObject::copyDataToBuffer(GLenum target, const GLvoid * data, GLs
 	{
 	case GL_ARRAY_BUFFER:
 		bindVBO();
+		if (properties[VBO_INDEX].bufferSize < dataSize)
+			resizeBuffer(target, dataSize);
 		glBufferSubData(target, 0, dataSize, data);
 		glBindBuffer(target, 0);
 		break;
 	case GL_ELEMENT_ARRAY_BUFFER:
+		if (properties[EBO_INDEX].bufferSize < dataSize)
+			resizeBuffer(target, dataSize);
 		bindVAO();
 		bindEBO();
 		glBufferSubData(target, 0, dataSize, data);

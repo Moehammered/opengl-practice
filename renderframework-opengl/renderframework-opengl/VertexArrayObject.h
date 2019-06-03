@@ -36,6 +36,7 @@ public:
 	void setupAttributes(VertexAttributes * const attributes, GLuint attribCount);
 	void enableAttribute(GLuint attribNumber);
 	void disableAttribute(GLuint attribNumber);
+	void resizeBuffer(GLenum target, GLsizeiptr newSize);
 	void copyDataToBuffer(GLenum target, const GLvoid * data, GLsizeiptr dataSize);
 	void bindVAO();
 	void bindVBO();
@@ -46,6 +47,7 @@ public:
 	const std::vector<VertexAttributes>& Attributes();
 private:
 	GLuint vao, vbo, ebo;
+	unsigned int VBO_INDEX, EBO_INDEX; //this needs to be removed somehow... :/
 	std::vector<BufferProperty> properties;
 	std::vector<VertexAttributes> attributes;
 	void initialise();

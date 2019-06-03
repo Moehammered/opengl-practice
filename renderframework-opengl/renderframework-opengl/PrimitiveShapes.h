@@ -6,6 +6,7 @@
 namespace PrimitiveShapes
 {
 	void CreateCube(StaticMesh& mesh);
+	void CreateCube(Mesh& mesh);
 	void CreateXYPlane(StaticMesh& mesh);
 	void CreateXZPlane(StaticMesh& mesh);
 	void CreateTriangle(StaticMesh& mesh);
