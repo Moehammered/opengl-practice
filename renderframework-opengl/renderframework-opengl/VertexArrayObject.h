@@ -15,14 +15,14 @@ struct VertexAttributes
 	//how far till the next attribute from this vertex to the next vertex data
 	GLsizei		stride;
 	//location within a single vertex
-	GLvoid *	componentOffset;
+	const GLvoid *	componentOffset;
 };
 
 struct BufferProperty
 {
 	GLenum		bufferTarget;
 	GLsizeiptr	bufferSize;
-	GLvoid *	data;
+	const GLvoid *	data;
 	GLenum		usage;
 };
 

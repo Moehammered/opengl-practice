@@ -14,14 +14,14 @@ Mesh::~Mesh()
 	indices.clear();
 }
 
-void Mesh::setVertices(Vertex * vertices, int vertexCount)
+void Mesh::setVertices(const Vertex * vertices, int vertexCount)
 {
 	this->vertices.clear();
 	this->vertices.reserve(vertexCount);
 	this->vertices.insert(this->vertices.begin(), vertices, vertices + vertexCount);
 }
 
-void Mesh::setIndices(int * indices, int indexCount)
+void Mesh::setIndices(const int * indices, int indexCount)
 {
 	this->indices.clear();
 	this->indices.reserve(indexCount);
@@ -62,12 +62,12 @@ int Mesh::MeshType()
 	return meshType;
 }
 
-Vertex * const Mesh::Vertices()
+const Vertex * const Mesh::Vertices()
 {
 	return vertices.data();
 }
 
-int * const Mesh::Indices()
+const int * const Mesh::Indices()
 {
 	return indices.data();
 }

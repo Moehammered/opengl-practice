@@ -12,8 +12,8 @@ public:
 	void bindElementBuffer();
 	void unbindAll();
 	void updateMesh() override;
-	void setVertices(Vertex* vertices, int vertexCount) override;
-	void setIndices(int* indices, int indexCount) override;
+	void setVertices(const Vertex* vertices, int vertexCount) override;
+	void setIndices(const int* indices, int indexCount) override;
 	void setMeshType(int type);
 
 protected:

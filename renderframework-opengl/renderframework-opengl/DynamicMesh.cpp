@@ -57,7 +57,7 @@ void DynamicMesh::updateMesh()
 	bufferUpdateFlag = 0x0; //clear it as it's finished any updates
 }
 
-void DynamicMesh::setVertices(Vertex * vertices, int vertexCount)
+void DynamicMesh::setVertices(const Vertex * vertices, int vertexCount)
 {
 	if (vertexCount != VertexCount())
 		bufferUpdateFlag = bufferUpdateFlag | VERT_BUFFER_SIZE_BIT;
@@ -65,7 +65,7 @@ void DynamicMesh::setVertices(Vertex * vertices, int vertexCount)
 	StaticMesh::setVertices(vertices, vertexCount);
 }
 
-void DynamicMesh::setIndices(int * indices, int indexCount)
+void DynamicMesh::setIndices(const int * indices, int indexCount)
 {
 	if (indexCount != IndexCount())
 		bufferUpdateFlag = bufferUpdateFlag | ELEM_BUFFER_SIZE_BIT;

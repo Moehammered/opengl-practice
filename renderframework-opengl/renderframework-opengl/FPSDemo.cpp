@@ -10,6 +10,7 @@
 #include "UIRenderComponent.h"
 #include "TransformVisualiser.h"
 #include "VolumeVisualiser.h"
+#include "MeshRendererComponent.h"
 
 //fps demo variables
 bool lineMode;
@@ -19,6 +20,7 @@ float pl_rotationspeed;
 float mouseSensitivity;
 glm::vec3 pl_dir;
 RenderComponent* playerRenderer;
+MeshRendererComponent* plMeshRend;
 RenderComponent* groundRenderer;
 RenderComponent* bigBoxRenderer;
 UIRenderComponent* uiText;
@@ -86,6 +88,12 @@ void FPSDemo::initialise()
 	PrimitiveShapes::CreateCube(playerRenderer->mesh);
 	playerRenderer->initialise();
 	playerRenderer->material->setTexture(new Texture("awesomeface.png"));
+	playerRenderer->enabled = false;
+
+	plMeshRend = player->AddComponent<MeshRendererComponent>();
+	plMeshRend->initialise();
+	plMeshRend->material->setShader(new Shader("VertexColourTransform.vs", "VertexColourTransform.fs"));
+	plMeshRend->enabled = true;
 
 	groundRenderer = ground->AddComponent<RenderComponent>();
 	PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);

@@ -10,8 +10,8 @@ public:
 	Mesh();
 	virtual ~Mesh();
 
-	virtual void setVertices(Vertex* vertices, int vertexCount);
-	virtual void setIndices(int* indices, int indexCount);
+	virtual void setVertices(const Vertex * vertices, int vertexCount);
+	virtual void setIndices(const int * indices, int indexCount);
 	void useTriangleList();
 	void useTriangleStrip();
 
@@ -20,8 +20,8 @@ public:
 	int TriangleCount();
 	int MeshType();
 
-	Vertex* const Vertices();
-	int* const Indices();
+	const Vertex* const Vertices();
+	const int* const Indices();
 
 protected:
 	std::vector<int> indices;

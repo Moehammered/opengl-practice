@@ -141,7 +141,7 @@ int main(char** argv, int argc)
 		//render
 		gameRenderer->processRenderQueue();
 		
-		momentOfTruth.mat->use();
+		/*momentOfTruth.mat->use();
 		momentOfTruth.vao.bindVAO();
 
 			momentOfTruth.mat->setTransformProperty("transform",
@@ -149,7 +149,7 @@ int main(char** argv, int argc)
 			glDrawElements(momentOfTruth.mesh.MeshType(),
 				momentOfTruth.mesh.IndexCount(), GL_UNSIGNED_INT, 0);
 
-		momentOfTruth.vao.unbind();
+		momentOfTruth.vao.unbind();*/
 
 		gameRenderer->processUIRenderQueue();
 		

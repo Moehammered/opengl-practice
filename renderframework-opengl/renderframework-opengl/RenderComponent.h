@@ -22,9 +22,6 @@ public:
 	void initialise() override;
 	bool isActive() override;
 	virtual void draw();
-
-private:
-
 };
 
 #endif
