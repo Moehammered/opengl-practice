@@ -14,14 +14,13 @@ public:
 	RenderComponent();
 	~RenderComponent();
 
-	StaticMesh mesh;
 	bool enabled;
 	
 	Material* material;
 
 	void initialise() override;
 	bool isActive() override;
-	virtual void draw();
+	virtual void draw() = 0;
 };
 
 #endif

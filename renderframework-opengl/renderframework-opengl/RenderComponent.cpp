@@ -20,22 +20,6 @@ bool RenderComponent::isActive()
 	return enabled & owner->IsActive();
 }
 
-void RenderComponent::draw()
-{
-	if (material)
-	{
-		if (Camera::MainCamera)
-		{
-			/*printf("RenderComponent rendering[id:%i]\n", id);
-			printf("RenderComponent owner[%s]\n", owner->toString().c_str());*/
-			material->use();
-			material->setTransformProperty("transform", 
-				Camera::MainCamera->ProjView() * owner->transform.TransformMat4());
-			mesh.draw();
-		}
-	}
-}
-
 RenderComponent::RenderComponent()
 {
 }

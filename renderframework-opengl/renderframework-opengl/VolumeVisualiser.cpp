@@ -1,6 +1,7 @@
 #include "VolumeVisualiser.h"
 #include <glad\glad.h>
 #include "TransformHelperFunctions.h"
+#include "Camera.h"
 
 VolumeVisualiser::VolumeVisualiser()
 {
@@ -37,7 +38,18 @@ void VolumeVisualiser::draw()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	//glDisable(GL_DEPTH_TEST);
 	glLineWidth(lineWidth);
-	RenderComponent::draw();
+	if (material)
+	{
+		if (Camera::MainCamera)
+		{
+			/*printf("RenderComponent rendering[id:%i]\n", id);
+			printf("RenderComponent owner[%s]\n", owner->toString().c_str());*/
+			material->use();
+			material->setTransformProperty("transform",
+				Camera::MainCamera->ProjView() * owner->transform.TransformMat4());
+			volumeMesh.draw();
+		}
+	}
 	glPolygonMode(GL_FRONT_AND_BACK, premode);
 	//if (depthmode)
 	//	glEnable(GL_DEPTH_TEST);
@@ -105,5 +117,5 @@ void VolumeVisualiser::buildLineMesh()
 	volumeMesh.unbindAll();
 	volumeMesh.updateMesh();
 
-	this->mesh = volumeMesh;
+	//this->mesh = volumeMesh;
 }

@@ -22,6 +22,7 @@ void VertexArrayObject::setupBuffers(BufferProperty * const properties, GLuint p
 	if (!properties) //can't setup with no properties given
 		return;
 
+	this->properties.clear(); //clear out old data
 	this->properties.reserve(propertyCount);
 	this->properties.insert(this->properties.begin(), properties, properties + propertyCount);
 	bindVAO();
@@ -64,6 +65,7 @@ void VertexArrayObject::setupAttributes(VertexAttributes * const attributes, GLu
 	if (!attributes) //can't setup with no attributes given
 		return;
 
+	this->attributes.clear();
 	this->attributes.reserve(attribCount);
 	this->attributes.insert(this->attributes.begin(), attributes, attributes + attribCount);
 	bindVAO();

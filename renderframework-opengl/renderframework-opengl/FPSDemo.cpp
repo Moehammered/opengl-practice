@@ -19,10 +19,10 @@ float pl_movespeed;
 float pl_rotationspeed;
 float mouseSensitivity;
 glm::vec3 pl_dir;
-RenderComponent* playerRenderer;
+MeshRendererComponent* playerRenderer;
 MeshRendererComponent* plMeshRend;
-RenderComponent* groundRenderer;
-RenderComponent* bigBoxRenderer;
+MeshRendererComponent* groundRenderer;
+MeshRendererComponent* bigBoxRenderer;
 UIRenderComponent* uiText;
 TransformVisualiser* visualiser;
 VolumeVisualiser* collisionRenderer;
@@ -84,25 +84,28 @@ void FPSDemo::initialise()
 	comp->mouseSensitivity = mouseSensitivity;
 	comp->enablePitchRotation = false;
 
-	playerRenderer = player->AddComponent<RenderComponent>();
+	/*playerRenderer = player->AddComponent<RenderComponent>();
 	PrimitiveShapes::CreateCube(playerRenderer->mesh);
 	playerRenderer->initialise();
 	playerRenderer->material->setTexture(new Texture("awesomeface.png"));
-	playerRenderer->enabled = false;
+	playerRenderer->enabled = false;*/
 
 	plMeshRend = player->AddComponent<MeshRendererComponent>();
 	plMeshRend->initialise();
 	plMeshRend->material->setShader(new Shader("VertexColourTransform.vs", "VertexColourTransform.fs"));
+	plMeshRend->material->setTexture(new Texture("awesomeface.png"));
 	plMeshRend->enabled = true;
 
-	groundRenderer = ground->AddComponent<RenderComponent>();
-	PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);
+	groundRenderer = ground->AddComponent<MeshRendererComponent>();
+	//PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);
 	groundRenderer->initialise();
+	groundRenderer->setMesh(PrimitiveShapes::CreateXZPlane());
 	groundRenderer->material->setTexture(new Texture("brick.jpg"));
 
-	bigBoxRenderer = bigBox->AddComponent<RenderComponent>();
-	PrimitiveShapes::CreateCube(bigBoxRenderer->mesh);
+	bigBoxRenderer = bigBox->AddComponent<MeshRendererComponent>();
+	//PrimitiveShapes::CreateCube(bigBoxRenderer->mesh);
 	bigBoxRenderer->initialise();
+	groundRenderer->setMesh(PrimitiveShapes::CreateCube());
 	bigBoxRenderer->material->setTexture(new Texture("container.jpg"));
 
 	uiText = player->AddComponent<UIRenderComponent>();

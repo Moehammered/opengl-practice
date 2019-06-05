@@ -19,5 +19,7 @@ public:
 private:
 	Mesh mesh;
 	VertexArrayObject vao;
+
+	void updateVAO();
 };
 

@@ -17,6 +17,7 @@ public:
 	void setMeshType(int type);
 
 protected:
+	//should move the dirty flags into the Mesh and merge it, Static and Dynamic aren't necessary anymore
 	unsigned int bufferUpdateFlag;
 	const unsigned int VERT_BUFFER_SIZE_BIT = 0x1;
 	const unsigned int VERT_BUFFER_DATA_BIT = 0x2;

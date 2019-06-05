@@ -5,12 +5,18 @@
 
 namespace PrimitiveShapes
 {
-	void CreateCube(StaticMesh& mesh);
 	void CreateCube(Mesh& mesh);
-	void CreateXYPlane(StaticMesh& mesh);
-	void CreateXZPlane(StaticMesh& mesh);
-	void CreateTriangle(StaticMesh& mesh);
-	void CreateSphere(StaticMesh& mesh);
-	void CreatePyramid(StaticMesh& mesh);
+	void CreateXYPlane(Mesh & mesh);
+	void CreateXZPlane(Mesh & mesh);
+	void CreateTriangle(Mesh & mesh);
+	void CreateSphere(Mesh & mesh);
+	void CreatePyramid(Mesh & mesh);
+
+	Mesh CreateCube();
+	Mesh CreateXYPlane();
+	Mesh CreateXZPlane();
+	Mesh CreateTriangle();
+	Mesh CreateSphere();
+	Mesh CreatePyramid();
 }
 #endif
