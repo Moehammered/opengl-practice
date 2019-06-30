@@ -90,6 +90,21 @@ void FPSDemo::initialise()
 	playerRenderer->material->setTexture(new Texture("awesomeface.png"));
 	playerRenderer->enabled = false;*/
 
+	VertexAttributes textureMatAttribs[] = {
+		{
+			0, 3, GL_FLOAT, GL_FALSE,
+			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::pos))
+		},
+		{
+			1, 3, GL_FLOAT, GL_FALSE,
+			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::colour))
+		},
+		{
+			2, 2, GL_FLOAT, GL_FALSE,
+			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::uv))
+		}
+	};
+
 	plMeshRend = player->AddComponent<MeshRendererComponent>();
 	plMeshRend->initialise();
 	plMeshRend->material->setShader(new Shader("VertexColourTransform.vs", "VertexColourTransform.fs"));
@@ -99,14 +114,16 @@ void FPSDemo::initialise()
 	groundRenderer = ground->AddComponent<MeshRendererComponent>();
 	//PrimitiveShapes::CreateXZPlane(groundRenderer->mesh);
 	groundRenderer->initialise();
-	groundRenderer->setMesh(PrimitiveShapes::CreateXZPlane());
 	groundRenderer->material->setTexture(new Texture("brick.jpg"));
+	groundRenderer->material->setAttributes(textureMatAttribs, 3);
+	groundRenderer->setMesh(PrimitiveShapes::CreateXZPlane());
 
 	bigBoxRenderer = bigBox->AddComponent<MeshRendererComponent>();
 	//PrimitiveShapes::CreateCube(bigBoxRenderer->mesh);
 	bigBoxRenderer->initialise();
-	groundRenderer->setMesh(PrimitiveShapes::CreateCube());
 	bigBoxRenderer->material->setTexture(new Texture("container.jpg"));
+	bigBoxRenderer->material->setAttributes(textureMatAttribs, 3);
+	bigBoxRenderer->setMesh(PrimitiveShapes::CreateCube());
 
 	uiText = player->AddComponent<UIRenderComponent>();
 	uiText->initialise();

@@ -3,8 +3,10 @@
 
 #include "Shader.h"
 #include "Texture.h"
+#include "VertexArrayObject.h"
 #include <glm\glm.hpp>
 #include <string>
+#include <vector>
 
 class Material
 {
@@ -15,15 +17,21 @@ public:
 	~Material();
 
 	unsigned int shaderID();
+	void setAttributes(const VertexAttributes* attribs, unsigned int attribCount);
 	void setShader(Shader* const sh);
 	void setTexture(Texture* const tx);
 	void setIntProperty(std::string prop, int val);
 	void setTransformProperty(std::string prop, glm::mat4 transform);
 	void use();
 
+	const std::vector<VertexAttributes> MaterialAttributes() const;
+
 private:
 	Texture* texture;
 	Shader* shader;
+	std::vector<VertexAttributes> attributes;
+
+	void createDefaultAttributes();
 };
 
 #endif

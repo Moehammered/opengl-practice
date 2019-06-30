@@ -20,6 +20,7 @@ const Mesh & MeshRendererComponent::getMesh()
 void MeshRendererComponent::setMesh(const Mesh & newMesh)
 {
 	this->mesh = newMesh;
+	this->mesh.forceBufferPropertyUpdate();
 	updateVAO();
 }
 
@@ -60,7 +61,7 @@ void MeshRendererComponent::draw()
 
 void MeshRendererComponent::updateVAO()
 {
-	BufferProperty buffers[] = {
+	/*BufferProperty buffers[] = {
 			{
 				GL_ARRAY_BUFFER, sizeof(Vertex) * mesh.VertexCount(), mesh.Vertices(), GL_STATIC_DRAW
 			},
@@ -77,7 +78,7 @@ void MeshRendererComponent::updateVAO()
 			1, 3, GL_FLOAT, GL_FALSE,
 			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::colour))
 		}
-	};
-	vao.setupBuffers(buffers, 2);
-	vao.setupAttributes(attributes, 2);
+	};*/
+	vao.setupBuffers(mesh.VertexBufferProperty().data(), mesh.VertexBufferProperty().size());
+	vao.setupAttributes(material->MaterialAttributes().data(), material->MaterialAttributes().size());
 }

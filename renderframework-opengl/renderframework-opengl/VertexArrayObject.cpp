@@ -16,7 +16,7 @@ VertexArrayObject::~VertexArrayObject()
 {
 }
 
-void VertexArrayObject::setupBuffers(BufferProperty * const properties, GLuint propertyCount)
+void VertexArrayObject::setupBuffers(const BufferProperty * const properties, GLuint propertyCount)
 {
 	//setup vbo, ebo, and VAO
 	if (!properties) //can't setup with no properties given
@@ -30,7 +30,7 @@ void VertexArrayObject::setupBuffers(BufferProperty * const properties, GLuint p
 	for (GLuint i = 0; i < propertyCount; ++i)
 	{
 		//figure out the buffer
-		BufferProperty& prop = properties[i];
+		const BufferProperty& prop = properties[i];
 		switch (prop.bufferTarget)
 		{
 			case GL_ARRAY_BUFFER:
@@ -59,7 +59,7 @@ void VertexArrayObject::setupBuffers(BufferProperty * const properties, GLuint p
 	unbind();
 }
 
-void VertexArrayObject::setupAttributes(VertexAttributes * const attributes, GLuint attribCount)
+void VertexArrayObject::setupAttributes(const VertexAttributes * const attributes, GLuint attribCount)
 {
 	//setup vbo attribute pointers here!
 	if (!attributes) //can't setup with no attributes given
@@ -186,7 +186,7 @@ void VertexArrayObject::initialise()
 	glGenVertexArrays(1, &vao);
 }
 
-void VertexArrayObject::printBufferProperty(BufferProperty & prop)
+void VertexArrayObject::printBufferProperty(const BufferProperty & prop)
 {
 	std::string output;
 	output += "\nBuffer Property Info - ";

@@ -32,8 +32,8 @@ public:
 	VertexArrayObject();
 	~VertexArrayObject();
 
-	void setupBuffers(BufferProperty * const properties, GLuint propertyCount);
-	void setupAttributes(VertexAttributes * const attributes, GLuint attribCount);
+	void setupBuffers(const BufferProperty * const properties, GLuint propertyCount);
+	void setupAttributes(const VertexAttributes * const attributes, GLuint attribCount);
 	void enableAttribute(GLuint attribNumber);
 	void disableAttribute(GLuint attribNumber);
 	void resizeBuffer(GLenum target, GLsizeiptr newSize);
@@ -51,7 +51,7 @@ private:
 	std::vector<BufferProperty> properties;
 	std::vector<VertexAttributes> attributes;
 	void initialise();
-	void printBufferProperty(BufferProperty& prop);
+	void printBufferProperty(const BufferProperty& prop);
 	void printVertexAttribute(VertexAttributes& attr);
 };
 

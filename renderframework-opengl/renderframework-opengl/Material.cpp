@@ -2,20 +2,24 @@
 
 #include <glad\glad.h>
 #include <glm\gtc\type_ptr.hpp>
+#include "InterleavedVertex.h"
 
 Material::Material()
 {
 	shader = new Shader("transform-coltex-shader.vs", "coltex-shader.fs");
+	createDefaultAttributes();
 }
 
 Material::Material(std::string vertexShaderPath, std::string fragmentShaderPath)
 {
 	shader = new Shader(vertexShaderPath, fragmentShaderPath);
+	createDefaultAttributes();
 }
 
 Material::Material(Shader * const preMadeShader)
 {
 	shader = preMadeShader;
+	createDefaultAttributes();
 }
 
 
@@ -28,6 +32,12 @@ Material::~Material()
 unsigned int Material::shaderID()
 {
 	return shader->ID();
+}
+
+void Material::setAttributes(const VertexAttributes * attribs, unsigned int attribCount)
+{
+	attributes.clear();
+	attributes.insert(attributes.begin(), attribs, attribs + attribCount);
 }
 
 void Material::setShader(Shader * const sh)
@@ -65,4 +75,25 @@ void Material::use()
 		if (texture)
 			texture->use();
 	}
+}
+
+const std::vector<VertexAttributes> Material::MaterialAttributes() const
+{
+	return attributes;
+}
+
+void Material::createDefaultAttributes()
+{
+	VertexAttributes attrib[] = {
+		{
+			0, 3, GL_FLOAT, GL_FALSE,
+			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::pos))
+		},
+		{
+			1, 3, GL_FLOAT, GL_FALSE,
+			sizeof(Vertex), (void*)(offsetof(Vertex, Vertex::colour))
+		}
+	};
+
+	attributes.insert(attributes.begin(), attrib, attrib + 2);
 }
